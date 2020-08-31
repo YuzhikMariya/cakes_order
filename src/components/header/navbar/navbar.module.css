@@ -1,0 +1,15 @@
+nav{
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+}
+
+.item{
+    text-decoration: none;
+    padding: 2em;
+    border-radius: 2em;
+    background-color: var(--light-background-color);
+    /* background-color: burlywood; */
+    margin: 0 0.5em;
+    color: var(--main-text-color);
+}

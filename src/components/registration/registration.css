@@ -1,0 +1,12 @@
+.registration_form{
+    display: flex;
+    flex-wrap: wrap;
+    margin-bottom: 2em;
+}
+.personal_info{
+    width: 33%;
+}
+
+.registration_form__btn{
+    width: 100%;
+}

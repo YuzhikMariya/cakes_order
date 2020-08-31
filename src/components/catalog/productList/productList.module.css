@@ -1,0 +1,16 @@
+.product_list{
+    display: grid;
+    grid-template-columns: repeat(5, 1fr);
+    gap: 2em;
+    padding: 2em 0;
+}
+
+.sortBy20{
+    grid-template-columns: repeat(4, 1fr);
+}
+
+.sortBy50,
+.sortBy100,
+.sortByAll{
+    grid-template-columns: repeat(5, 1fr);
+}

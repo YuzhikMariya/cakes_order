@@ -1,0 +1,31 @@
+.info{
+    text-align: start;
+    width: 20%;
+    margin: auto;
+    padding: 0.5em 3em;
+}
+
+.user_data{
+    font-weight: bold;
+    font-style: italic;
+}
+
+.purchase_history{
+    display: flex;
+    flex-direction: column;
+    width: 40%;
+    margin: auto;
+}
+
+.history__item{
+    display: flex;
+    justify-content: space-between;
+    margin: 0.4em;
+    padding: 0.5em 1.5em;
+    background-color: var(--light-background-color);
+    border-radius: 1em;
+}
+
+a{
+    color: var(--main-text-color);
+}
