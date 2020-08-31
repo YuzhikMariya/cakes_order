@@ -9,7 +9,11 @@ nav{
     padding: 2em;
     border-radius: 2em;
     background-color: var(--light-background-color);
-    /* background-color: burlywood; */
     margin: 0 0.5em;
     color: var(--main-text-color);
+}
+
+.item.active{
+    background-color: var(--ok-btn-color);
+    color: var(--light-text-color);
 }

@@ -8,163 +8,25 @@ import SignIn from './components/signin/signin';
 import Cart from './components/cart/cart';
 import Catalog from './components/catalog/catalog';
 import Account from './components/account/account';
+import { BrowserRouter, Route } from 'react-router-dom';
 
-function App() {
-  let obj = [
-    {
-      title: "The best cake",
-      ref: "#",
-      count: 2
-    },
-    {
-      title: "Jsjdf fkjh sksfl lf",
-      ref: "#",
-      count: 2
-    },
-    {
-      title: "The sldfk lsf best cake",
-      ref: "#",
-      count: 2
-    },
-    {
-      title: "p  oI jhsk dksd best cake",
-      ref: "#",
-      count: 2
-    },
-    {
-      title: "The best cake",
-      ref: "#",
-      count: 12
-    }
-  ]
-
-  let obj1=[
-    {
-      photo: "cake1.png",
-      title: "Kkjsdfh  ksf kjdsfk h",
-      price: 13,
-      count: 4
-    },
-    {
-      photo: "cake2.png",
-      title: "Kkjsdfh  ksf  h",
-      price: 13,
-      count: 54
-    },
-    {
-      photo: "cake3.png",
-      title: "Ojn  ksf kjdsfk h",
-      price: 13,
-      count: 4
-    },
-    {
-      photo: "cake4.png",
-      title: "Lnsf f ksf kjdsfk h",
-      price: 13,
-      count: 4
-    },
-    {
-      photo: "cake5.png",
-      title: "Kkjsdfh  ksf kjdsfk h",
-      price: 13,
-      count: 4
-    },
-    {
-      photo: "cake6.png",
-      title: "Kkjsdfh  ksf kjdsfk h",
-      price: 13,
-      count: 4
-    },
-    {
-      photo: "cake7.png",
-      title: "Kkjsdfh  ksf kjdsfk h",
-      price: 13,
-      count: 4
-    },
-    {
-      photo: "cake1.png",
-      title: "Kkjsdfh  ksf kjdsfk h",
-      price: 13,
-      count: 4
-    },
-    {
-      photo: "cake8.png",
-      title: "Kkjsdfh  ksf kjdsfk h",
-      price: 13,
-      count: 4
-    }
-  ]
-
-  let obj2 = [];
-
-  let obj3=[
-    {
-      photo: "cake1.png",
-      title: "Kkjsdfh  ksf kjdsfk h",
-      price: 13,
-      time: 4
-    },
-    {
-      photo: "cake2.png",
-      title: "Kkjsdfh  ksf  h",
-      price: 13,
-      time: 54
-    },
-    {
-      photo: "cake3.png",
-      title: "Ojn  ksf kjdsfk h",
-      price: 13,
-      time: 4
-    },
-    {
-      photo: "cake4.png",
-      title: "Lnsf f ksf kjdsfk h",
-      price: 13,
-      time: 4
-    },
-    {
-      photo: "cake5.png",
-      title: "Kkjsdfh  ksf kjdsfk h",
-      price: 13,
-      time: 4
-    },
-    {
-      photo: "cake6.png",
-      title: "Kkjsdfh  ksf kjdsfk h",
-      price: 13,
-      time: 4
-    },
-    {
-      photo: "cake7.png",
-      title: "Kkjsdfh  ksf kjdsfk h",
-      price: 13,
-      time: 4
-    },
-    {
-      photo: "cake1.png",
-      title: "Kkjsdfh  ksf kjdsfk h",
-      price: 13,
-      time: 4
-    },
-    {
-      photo: "cake8.png",
-      title: "Kkjsdfh  ksf kjdsfk h",
-      price: 13,
-      time: 4
-    }
-  ]
+function App(props) {
 
   return (
     <div className="wrapper">
-      <Header />
-      {/* <Registration />
-      <Admin />
-      <SignIn /> */}
-      {/* <Cart items={obj2}/> */}
-      <Catalog sort="sortByAll" list={obj3}/>
-       
-      {/* <Account surname="Yuzhyk" name="Maryia" email="mari.yuzhik@mail.ru" phone="+375296965625" history={obj}/>  */}
-      <Footer />
+      <BrowserRouter >
+        <Header />
+        <Route path="/registration" render={() => <Registration />}/>
+        <Route path="/signin" render={() => <SignIn />}/>
+        <Route path="/admin" render={() => <Admin />}/>
+
+        <Route path="/acc" render={() => <Account personalInfo={props.state.personalInfo} history={props.state.history}/> }/>
+        <Route path="/catalog" render={() => <Catalog sort={props.state.sortType} list={props.state.catalog}/>}/>
+        <Route path="/cart" render={() => <Cart items={props.state.cart}/>}/>
+        <Footer />
+      </BrowserRouter>
+        
+      
     </div>
 
 
