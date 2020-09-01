@@ -1,7 +1,11 @@
 import React from 'react';
 import CakeInfo from './cakeInfo/cakeInfo';
 
-function Admin() {
+function Admin(props) {
+
+    let newDescription = React.createRef();
+
+
     return (
         <div class="content">
             <h1 class="content__header">Add new cake</h1>
@@ -13,12 +17,12 @@ function Admin() {
                     <CakeInfo title="time" type="time"/>
                     <div class="cake_inf description">
                             <label for="description">Description:</label>
-                            <textarea class="input_data" id="description" rows="5"></textarea>
+                            <textarea ref={newDescription} class="input_data" id="description" rows="5"></textarea>
                     </div>
                 </div>
                     
-                <div class="">
-                    <input class="btn" type="submit" value="Add"/>
+                <div>
+                    <button className="btn">Add</button>
                 </div>
                     
             </form>

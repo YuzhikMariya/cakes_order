@@ -15,7 +15,7 @@ function App(props) {
   return (
     <div className="wrapper">
       <BrowserRouter >
-        <Header />
+        <Header role={props.role}/>
         <Route path="/registration" render={() => <Registration />}/>
         <Route path="/signin" render={() => <SignIn />}/>
         <Route path="/admin" render={() => <Admin />}/>

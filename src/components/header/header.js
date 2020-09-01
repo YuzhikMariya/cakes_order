@@ -3,12 +3,12 @@ import './header.css';
 import Logo from './logo/logo';
 import Navbar from './navbar/navbar';
 
-function Header() {
+function Header(props) {
 
     return (
         <header>
             <Logo />
-            <Navbar role="user"/>
+            <Navbar role={props.role}/>
         </header>
     );
 }
