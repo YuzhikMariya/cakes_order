@@ -1,6 +1,7 @@
 import React from 'react';
 import PersonalInfo from '../personalInfo/personalInfo';
 import './signin.css';
+import { NavLink } from 'react-router-dom';
 
 function SignIn() {
     return (
@@ -12,7 +13,7 @@ function SignIn() {
         
                 <input class="btn" type="submit" value="Sign in"/>
             </form>
-            <p>New to MasterCake?  <a href="#">Create an account!</a></p>
+            <p>New to MasterCake?  <NavLink to="/registration">Create an account!</NavLink></p>
 
         </div>
     );

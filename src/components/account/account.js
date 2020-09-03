@@ -4,7 +4,7 @@ import History from './history/history';
 
 function Account(props) {
 
-    let user = props.personalInfo;
+    let user = props.state.personalInfo;
     return (
         <div className="content">
             <h1>Your account:</h1>
@@ -13,7 +13,7 @@ function Account(props) {
                 <div className={s.info}>Name: <span className={s.user_data}>{user.name}</span></div>
                 <div className={s.info}>E-mail: <span className={s.user_data}>{user.email}</span></div>
                 <div className={s.info}>Phone: <span className={s.user_data}>{user.phone}</span></div>
-                <History history={props.history}/>
+                <History history={props.state.history}/>
             </div>
             
         </div>

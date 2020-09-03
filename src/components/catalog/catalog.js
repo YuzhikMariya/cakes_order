@@ -8,11 +8,11 @@ function Catalog(props) {
     return (
         <div className="content">
             <h1>Catalog</h1>
-            {(props.list.length != 0)
+            {(props.state.catalog.length != 0)
                 ? (
                     <form>
-                        <SortPanel checked={props.sort}/>
-                        <ProductList sortCount={props.sort} products={props.list}/>
+                        <SortPanel dispatch={props.dispatch} checked={props.state.sortType}/>
+                        <ProductList sortCount={props.state.sortType} products={props.state.catalog}/>
                         <PageNav />
                     </form>
                 )

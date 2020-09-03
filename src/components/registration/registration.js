@@ -1,6 +1,7 @@
 import React from 'react';
 import './registration.css';
 import PersonalInfo from '../personalInfo/personalInfo';
+import { NavLink } from 'react-router-dom';
 
 function Registration() {
     return (
@@ -18,7 +19,7 @@ function Registration() {
                 </div>
                     
             </form>
-            <p>Already have an account? <a href="#">Sign in to it!</a></p>   
+            <p>Already have an account? <NavLink to="/signin">Sign in to it!</NavLink></p>   
         </div>
     );
 }

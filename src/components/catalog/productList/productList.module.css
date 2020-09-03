@@ -9,8 +9,11 @@
     grid-template-columns: repeat(4, 1fr);
 }
 
-.sortBy50,
+.sortBy50{
+    grid-template-columns: repeat(5, 1fr);
+}
+
 .sortBy100,
 .sortByAll{
-    grid-template-columns: repeat(5, 1fr);
+    grid-template-columns: repeat(6, 1fr);
 }

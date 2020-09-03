@@ -5,6 +5,7 @@ import Navbar from './navbar/navbar';
 
 function Header(props) {
 
+    console.log(props);
     return (
         <header>
             <Logo />
