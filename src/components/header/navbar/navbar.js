@@ -6,11 +6,7 @@ function Navbar(props) {
     let navItems = [];
     let tempItem = <NavLink className={s.item} activeClassName={s.active} to="/catalog">All cakes</NavLink>;
     navItems.push(tempItem);
-    switch(props.role){
-        case "guest":
-            tempItem = <NavLink className={s.item} activeClassName={s.active} to="/signin">Sign in</NavLink>
-            navItems.push(tempItem);
-            break;
+    switch(props.role){   
         case "user":
             tempItem = <NavLink className={s.item} activeClassName={s.active} to="/cart">Cart</NavLink>
             navItems.push(tempItem);
@@ -23,6 +19,10 @@ function Navbar(props) {
             tempItem = <NavLink className={s.item} activeClassName={s.active} to="/admin">Edit catalog</NavLink>
             navItems.push(tempItem);
             tempItem = <NavLink className={s.item} activeClassName={s.active} to="/signin">Sign out</NavLink>
+            navItems.push(tempItem);
+            break;
+        default:
+            tempItem = <NavLink className={s.item} activeClassName={s.active} to="/signin">Sign in</NavLink>
             navItems.push(tempItem);
             break;
     }

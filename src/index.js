@@ -4,22 +4,27 @@ import './index.css';
 import App from './App';
 import * as serviceWorker from './serviceWorker';
 import store from './redux/reduxStore';
+import {Provider} from 'react-redux';
+import { BrowserRouter } from 'react-router-dom';
 
 
-let rerender = (state) => {
+let rerender = () => {
+  let state = store.getState();
   ReactDOM.render(
-    <React.StrictMode>
-      <App state={state} dispatch={store.dispatch.bind(store)}/>
-    </React.StrictMode>,
-    document.getElementById('root')
+    <BrowserRouter>
+      <Provider store={store}>
+        <React.StrictMode>
+          <App state={state} dispatch={store.dispatch.bind(store)} store={store}/>
+        </React.StrictMode>,
+      </Provider>
+    </BrowserRouter>, document.getElementById('root')
   );
 }
 
-rerender(store.getState());
+rerender();
 
 store.subscribe(() => {
-  let state = store.getState();
-  rerender(state);
+  rerender();
 });
 
 

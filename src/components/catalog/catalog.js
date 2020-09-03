@@ -1,18 +1,18 @@
 import React from 'react';
-import SortPanel from './sortPanel/sortPanel';
-import ProductList from './productList/productList';
 import PageNav from './pageNav/pageNav';
+import SortPanelContainer from './sortPanel/sortPanelContainer';
+import { ProductListContainer } from './productList/productListContainer';
 
 
 function Catalog(props) {
     return (
         <div className="content">
             <h1>Catalog</h1>
-            {(props.state.catalog.length != 0)
+            {(props.state.catalog.length !== 0)
                 ? (
                     <form>
-                        <SortPanel dispatch={props.dispatch} checked={props.state.sortType}/>
-                        <ProductList sortCount={props.state.sortType} products={props.state.catalog}/>
+                        <SortPanelContainer />
+                        <ProductListContainer />
                         <PageNav />
                     </form>
                 )

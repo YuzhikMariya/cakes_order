@@ -9,9 +9,9 @@ function Order(props) {
             <div className={s.price}>Price for one: <span className={s.order_data}>{props.price}</span> BYN</div>
             <div className={s.count}>
                 Count: 
-                 <input className={s.decrease, s.change_count__btn} type="submit" value="-"/>
+                 <input className={`${s.decrease} ${s.change_count__btn}`} type="submit" value="-"/>
                  <span className={s.order_data}>{props.count} </span>
-                 <input className={s.increase, s.change_count__btn} type="submit" value="+"/>
+                 <input className={`${s.increase} ${s.change_count__btn}`} type="submit" value="+"/>
             </div>
 
             

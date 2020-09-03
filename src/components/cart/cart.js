@@ -5,7 +5,7 @@ function Cart(props) {
     return (
         <div className="content">
             <h1>Shopping cart</h1>
-            {(props.state.cart.length != 0)
+            {(props.state.cart.length !== 0)
                 ? (
                     <form className="order_list">
                         {props.state.cart.map((value) => {
