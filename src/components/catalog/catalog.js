@@ -8,7 +8,7 @@ function Catalog(props) {
     return (
         <div className="content">
             <h1>Catalog</h1>
-            {(props.state.catalog.length !== 0)
+            {(props.catalog.length !== 0)
                 ? (
                     <form>
                         <SortPanelContainer />

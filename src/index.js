@@ -8,24 +8,16 @@ import {Provider} from 'react-redux';
 import { BrowserRouter } from 'react-router-dom';
 
 
-let rerender = () => {
-  let state = store.getState();
-  ReactDOM.render(
+
+ReactDOM.render(
     <BrowserRouter>
       <Provider store={store}>
         <React.StrictMode>
-          <App state={state} dispatch={store.dispatch.bind(store)} store={store}/>
+          <App state={store.getState()} dispatch={store.dispatch.bind(store)} store={store}/>
         </React.StrictMode>,
       </Provider>
     </BrowserRouter>, document.getElementById('root')
-  );
-}
-
-rerender();
-
-store.subscribe(() => {
-  rerender();
-});
+);
 
 
 

@@ -49,6 +49,9 @@
 }
 
 .change_count__btn{
+    display: inline-block;
+    cursor: pointer;
+    padding: 0 0.5em;
     margin: 0 0.5em;
     border-radius: 1em;
     border: 1px solid var(--main-text-color);

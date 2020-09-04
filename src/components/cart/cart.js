@@ -1,19 +1,24 @@
 import React from 'react';
-import Order from './order/order'
+import { OrderContainer } from './order/orderContainer';
 
 function Cart(props) {
+
+    let buy = () => {
+        props.onBuyClick(props.cart);
+    }
+
     return (
         <div className="content">
             <h1>Shopping cart</h1>
-            {(props.state.cart.length !== 0)
+            {(props.cart.length !== 0)
                 ? (
                     <form className="order_list">
-                        {props.state.cart.map((value) => {
-                            return <Order photo={value.photo} title={value.title} price={value.price} count={value.count} />
+                        {props.cart.map((value) => {
+                            return <OrderContainer photo={value.photo} title={value.title} price={value.price} count={value.count} id={value.id} dispatch={props.dispatch}/>
                         })}
 
                         <div>
-                            <input class="btn" type="submit" value="Buy"/>
+                            <button onClick={buy} class="btn">Buy</button>
                         </div>
                             
                     </form>

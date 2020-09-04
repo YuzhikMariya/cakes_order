@@ -5,10 +5,10 @@ import Footer from './components/footer/footer';
 import Registration from './components/registration/registration';
 import Admin from './components/admin/admin';
 import SignIn from './components/signin/signin';
-import Cart from './components/cart/cart';
 import Catalog from './components/catalog/catalog';
 import Account from './components/account/account';
 import { Route } from 'react-router-dom';
+import { CartContainer } from './components/cart/cartContainer';
 
 function App(props) {
   return (
@@ -19,8 +19,8 @@ function App(props) {
         <Route path="/admin" render={() => <Admin />}/>
 
         <Route path="/acc" render={() => <Account state={props.state.accountPage}/> }/>
-        <Route path="/catalog" render={() => <Catalog store={props.store} state={props.state.catalogPage} dispatch={props.dispatch}/>}/>
-        <Route path="/cart" render={() => <Cart state={props.state.cartPage}/>}/>
+        <Route path="/catalog" render={() => <Catalog catalog={props.state.catalogPage.catalog}/>}/>
+        <Route path="/cart" render={() => <CartContainer />}/>
         <Footer />
           
     </div>
