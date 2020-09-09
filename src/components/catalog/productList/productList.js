@@ -1,6 +1,5 @@
 import React from 'react';
 import s from './productList.module.css'
-import Product from './product/product';
 import { ProductContainer } from './product/productContainer';
 
 function ProductList(props) {

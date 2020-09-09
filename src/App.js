@@ -9,6 +9,7 @@ import Catalog from './components/catalog/catalog';
 import Account from './components/account/account';
 import { Route } from 'react-router-dom';
 import { CartContainer } from './components/cart/cartContainer';
+import { CakeContainer } from './components/cake/cakeContainer';
 
 function App(props) {
   return (
@@ -21,6 +22,7 @@ function App(props) {
         <Route path="/acc" render={() => <Account state={props.state.accountPage}/> }/>
         <Route path="/catalog" render={() => <Catalog catalog={props.state.catalogPage.catalog}/>}/>
         <Route path="/cart" render={() => <CartContainer />}/>
+        <Route path="/cake/:id" render={({match}) => <CakeContainer match={match}/>}/>
         <Footer />
           
     </div>

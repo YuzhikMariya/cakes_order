@@ -1,5 +1,6 @@
 import React from 'react';
 import s from './history.module.css'
+import { NavLink } from 'react-router-dom';
 
 function History(props) {
 
@@ -9,7 +10,7 @@ function History(props) {
             <h3>Purchase history</h3>
             {props.history.map((item) => {
                 return (<div className={s.history__item}>
-                    <a href={item.ref}>{item.title}</a>
+                    <NavLink to={"cake/"+item.id}>{item.title}</NavLink>
                     <span>x {item.count}</span>
                 </div>)
             })}

@@ -10,27 +10,27 @@ let initialState = {
       history: [
         {
           title: "The best cake",
-          ref: "#",
+          id: 1,
           count: 2
         },
         {
           title: "Jsjdf fkjh sksfl lf",
-          ref: "#",
+          id: 2,
           count: 2
         },
         {
           title: "The sldfk lsf best cake",
-          ref: "#",
+          id: 3,
           count: 2
         },
         {
           title: "p  oI jhsk dksd best cake",
-          ref: "#",
+          id: 4,
           count: 2
         },
         {
           title: "The best cake",
-          ref: "#",
+          id: 5,
           count: 12
         }
       ]

@@ -9,7 +9,7 @@ let initialState = {
           title: "Kkjsdfh  ksf kjdsfk h",
           price: 13,
           time: 4,
-          description: "qkwehkmnfd j lkjfh glkjsbgflvj sb"
+          description: "qkwehkmnfd j lkjfh glkjsbgflvj sb qkwehkmnfd j lkjfh glkjsbgflvj sb qkwehkmnfd j lkjfh glkjsbgflvj sb qkwehkmnfd j lkjfh glkjsbgflvj sb qkwehkmnfd j lkjfh glkjsbgflvj sb qkwehkmnfd j lkjfh glkjsbgflvj sb qkwehkmnfd j lkjfh glkjsbgflvj sbqkwehkmnfd j lkjfh glkjsbgflvj sb"
         },
         {
           id: 2,

@@ -1,0 +1,33 @@
+.cake{
+    background-color: var(--light-background-color);
+    border-radius: 5em;
+    padding: 1em 0;
+    width: 70%;
+    margin: auto;
+}
+
+.title{
+    margin: 0;
+    color: black;
+}
+
+.time{
+    padding: 0.5em;
+    text-align: center;
+}
+
+.price{
+    padding: 0.5em;
+    text-align: center;
+}
+
+.photo{
+    margin: auto;
+    display: block;
+    width: 7em; 
+    height: 8em;
+}
+
+.description{
+    padding: 2em;
+}
