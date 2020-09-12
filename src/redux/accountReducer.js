@@ -1,4 +1,5 @@
 const ADD_TO_HISTORY = 'ADD-TO-HISTORY';
+const SET_ACCOUNT = 'SET-ACCOUNT';
 
 let initialState = {
     personalInfo: {
@@ -38,12 +39,22 @@ let initialState = {
 
 export const accountReducer = (state = initialState, action) => {
     switch (action.type){
-      case ADD_TO_HISTORY:
+      case ADD_TO_HISTORY:{
         let newState = {...state};
         action.history.forEach(element => {
           newState.history.push(element);
         });
         return newState;
+      }
+      case SET_ACCOUNT:{
+        let newState = {...state};
+        newState.personalInfo = action.personalInfo;
+        action.history = [];
+        action.history.forEach(element => {
+          newState.history.push(element);
+        });
+        return newState;
+      }
       default:
         return state;
     }
@@ -62,5 +73,18 @@ export const addToHistoryActionCreator = (list) => {
   return {
     type: ADD_TO_HISTORY,
     history: history
+  }
+}
+
+export const setAccountActionCreator = (user) => {
+  return{
+    type: SET_ACCOUNT,
+    personalInfo: {
+      name: user.name,
+      surname: user.surname,
+      email: user.email,
+      phone: user.phone
+    },
+    history: user.history
   }
 }

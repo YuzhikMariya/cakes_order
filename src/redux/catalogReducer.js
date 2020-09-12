@@ -38,7 +38,6 @@ export const catalogReducer = (state = initialState, action) => {
             return newState;
         }
         case SET_CATALOG:{
-          alert(JSON.stringify(action.catalogArr));
           let newState = {...state};
           newState.catalog = [];
           action.catalogArr.forEach(element => {
