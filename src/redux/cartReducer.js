@@ -3,71 +3,23 @@ const DECREASE_COUNT = 'DECREASE-COUNT';
 const DELETE_FROM_CART = 'DELETE-FROM-CART';
 const ADD_TO_CART = 'ADD-TO-CART';
 const BUY = 'BUY';
+const SET_CART = 'SET-CART';
 
 let initialState = {
     cart: [
         {
-          id: 1, 
+          id: "1", 
           photo: "cake1.png",
           title: "Kkjsdfh  ksf kjdsfk h",
           price: 13,
           count: 4
         },
         {
-          id: 2, 
+          id: "2", 
           photo: "cake2.png",
           title: "Kkjsdfh  ksf  h",
           price: 13,
           count: 54
-        },
-        {
-          id: 3,
-          photo: "cake3.png",
-          title: "Ojn  ksf kjdsfk h",
-          price: 13,
-          count: 4
-        },
-        {
-          id: 4,
-          photo: "cake4.png",
-          title: "Lnsf f ksf kjdsfk h",
-          price: 13,
-          count: 4
-        },
-        {
-          id: 5,
-          photo: "cake5.png",
-          title: "Kkjsdfh  ksf kjdsfk h",
-          price: 13,
-          count: 4
-        },
-        {
-          id: 6,
-          photo: "cake6.png",
-          title: "Kkjsdfh  ksf kjdsfk h",
-          price: 13,
-          count: 4
-        },
-        {
-          id: 7,
-          photo: "cake7.png",
-          title: "Kkjsdfh  ksf kjdsfk h",
-          price: 13,
-          count: 4
-        },
-        {
-          id: 8,
-          photo: "cake1.png",
-          title: "Kkjsdfh  ksf kjdsfk h",
-          price: 13,
-          count: 4
-        },
-        {
-          id: 9,
-          photo: "cake8.png",
-          title: "Kkjsdfh  ksf kjdsfk h",
-          price: 13,
-          count: 4
         }
       ]
 }
@@ -117,6 +69,14 @@ export const cartReducer = (state = initialState, action) => {
         
         return newState;
       }
+      case SET_CART:{
+        let newState = {...state};
+        newState.cart = [];
+        action.cart.forEach(el => {
+          newState.cart.push(el);
+        });
+        return newState;
+      }
       default:
         return state;
     }
@@ -159,5 +119,12 @@ export const addToCartActionCreator = (id, photo, title, price) => {
       price: price,
       count: 1
     }
+  }
+}
+
+export const setCartActionCreator = (cart) => {
+  return {
+    type: SET_CART,
+    cart: cart
   }
 }
