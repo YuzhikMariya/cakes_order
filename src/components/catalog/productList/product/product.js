@@ -1,12 +1,22 @@
 import React from 'react';
 import s from './product.module.css'
 import { NavLink } from 'react-router-dom';
+import Axios from 'axios';
 
 function Product(props) {
 
     let onAddClick = (e) => {
 
-        props.onAddClick(props.id, props.photo, props.title, props.price);
+        const postData = new FormData();
+        postData.append("id", props.id);
+
+        Axios.post("https://localhost:44340/api/catalog", postData)
+        .then(res => {
+            alert(JSON.stringify(res.data));
+            props.onAddClick(res.data.id, res.data.photo, res.data.title, res.data.price);
+        });
+
+        
         e.preventDefault();
     }
 

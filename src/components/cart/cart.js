@@ -5,7 +5,13 @@ import { OrderContainer } from './order/orderContainer';
 class Cart extends React.Component {
 
     componentDidMount(){
-        Axios.get("https://localhost:44340/api/cart").then(res => 
+
+        const http = Axios.create({
+            baseURL: '/',
+            headers: { 'Cache-Control': 'no-cache' }
+        });
+
+        http.get("https://localhost:44340/api/cart", { cache: false }).then(res => 
         {
             let cart = [];
             res.data.cartList.forEach(element => {
@@ -22,8 +28,28 @@ class Cart extends React.Component {
         })
     }
 
-    buy(){
-        this.props.onBuyClick(this.props.cart);
+    buy(e){
+
+        const postData = new FormData();
+        let cartItemArray = [];
+        this.props.cart.forEach(element => {
+            let tempObj = {
+                id: element.id,
+                count: element.count
+            };
+            cartItemArray.push(tempObj);
+        });
+
+       
+        
+        postData.append("list", JSON.stringify(cartItemArray));
+
+        Axios.post("https://localhost:44340/api/cart", postData)
+        .then(res => {
+            this.props.onBuyClick(res.data);
+        });
+        e.preventDefault();
+        
     }
 
     render(){
@@ -32,16 +58,16 @@ class Cart extends React.Component {
                 <h1>Shopping cart</h1>
                 {(this.props.cart.length !== 0)
                     ? (
-                        <form className="order_list">
+                        <div className="order_list">
                             {this.props.cart.map((value) => {
                                 return <OrderContainer photo={value.photo} title={value.title} price={value.price} count={value.count} id={value.id} dispatch={this.props.dispatch}/>
                             })}
     
                             <div>
-                                <button onClick={this.buy} class="btn">Buy</button>
+                                <button onClick={this.buy.bind(this)} class="btn">Buy</button>
                             </div>
                                 
-                        </form>
+                        </div>
                     )
                     : (
                   <div className="empty">

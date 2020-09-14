@@ -1,6 +1,5 @@
 import { connect } from "react-redux";
 import Cart from "./cart";
-import {addToHistoryActionCreator} from './../../redux/accountReducer';
 import {buyActionCreator, setCartActionCreator} from './../../redux/cartReducer';
 
 let mapStateToProps = (state) => {
@@ -14,8 +13,7 @@ let mapDispatchToProps = (dispatch) => {
         setCart: (cart) => {
             dispatch(setCartActionCreator(cart));
         },
-        onBuyClick: (cartList) => {
-            dispatch(addToHistoryActionCreator(cartList));
+        onBuyClick: () => {
             dispatch(buyActionCreator());
         }
     }
