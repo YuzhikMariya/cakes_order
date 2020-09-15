@@ -1,5 +1,5 @@
 
 
-export const registrationReducer = (state = "user", action) => {
+export const registrationReducer = (state = "admin", action) => {
     return state;
 }

@@ -4,7 +4,7 @@ import { NavLink } from 'react-router-dom';
 
 function Navbar(props) {
     let navItems = [];
-    let tempItem = <NavLink className={s.item} activeClassName={s.active} to="/catalog">All cakes</NavLink>;
+    let tempItem = <NavLink className={s.item} activeClassName={s.active} exact to="/">All cakes</NavLink>;
     navItems.push(tempItem);
     switch(props.role){   
         case "user":

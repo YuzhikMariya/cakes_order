@@ -45,7 +45,7 @@ export const catalogReducer = (state = initialState, action) => {
                 title: element.title,
                 id: element.id,
                 price: element.price,
-                time: 7,
+                time: element.time.hours + ":" + element.time.minutes,
                 description: element.description,
                 photo: element.photo
               }
