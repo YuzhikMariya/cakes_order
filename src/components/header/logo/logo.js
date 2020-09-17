@@ -1,11 +1,10 @@
 import React from 'react';
 import s from './logo.module.css';
-import logoImg from '../../../img/header_logo.jpg'
 
 function Logo() {
     return (
         <div className={s.logo}>
-            <img className={s.icon} src={logoImg} alt="logo icon"/>
+            <img className={s.icon} src="https://localhost:44340/images/header_logo.jpg"  alt="logo icon"/>
             <p className={s.name}>MasterCake</p>
         </div>
     );

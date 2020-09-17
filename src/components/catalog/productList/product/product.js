@@ -23,7 +23,7 @@ function Product(props) {
     return (
         <div id={props.id} className={s.product}>
             <NavLink to={"cake/"+props.id}>
-                <img className={s.photo} src={require(`../../../../img/${props.photo}`)} alt="cake"></img>
+                <img className={s.photo} src={"https://localhost:44340/images/"+props.photo} alt="cake"></img>
                 <p className={s.title}>{props.title}</p>
                 <div className={s.price}>{props.price} BYN</div>
                 <div className={s.time}>{props.time} min</div>

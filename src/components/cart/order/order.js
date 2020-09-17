@@ -21,7 +21,7 @@ function Order(props) {
 
     return (
         <div className={s.order} id={props.id}>
-            <img className={s.photo} src={require(`../../../img/${props.photo}`)} alt="cake img"></img>
+            <img className={s.photo} src={"https://localhost:44340/images/"+props.photo} alt="cake img"></img>
             <p className={s.title}>{props.title}</p>
             <div className={s.price}>Price for one: <span className={s.order_data}>{props.price}</span> BYN</div>
             <div className={s.count}>

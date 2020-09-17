@@ -7,14 +7,14 @@ class  ProductList extends React.Component {
     
 
     componentDidMount(){
-        Axios.get("https://localhost:44340/api/catalog").then(res => 
+        Axios.get(`https://localhost:44340/api/catalog?page=${this.props.currentPage}&pageSize=${this.props.sortCount}`).then(res => 
         {
             this.props.setCatalog(res.data);
         });
     }
 
     render(){
-        let sortClass = this.props.sortCount;
+        let sortClass = "sortBy"+this.props.sortCount;
         return (
             <div className={`${s.product_list} ${s[sortClass]}`}>
                 {this.props.products.map(el => {

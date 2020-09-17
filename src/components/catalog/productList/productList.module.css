@@ -5,15 +5,15 @@
     padding: 2em 0;
 }
 
-.sortBy20{
+.sortBy2{
     grid-template-columns: repeat(4, 1fr);
 }
 
-.sortBy50{
+.sortBy5{
     grid-template-columns: repeat(5, 1fr);
 }
 
-.sortBy100,
-.sortByAll{
+.sortBy10,
+.sortBy1{
     grid-template-columns: repeat(6, 1fr);
 }

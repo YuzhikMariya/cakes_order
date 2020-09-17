@@ -1,19 +1,23 @@
 const CHANGE_SORT_TYPE  = 'CHANGE-SORT-TYPE';
 const ADD_TO_CATALOG = 'ADD-TO-CATALOG';
 const SET_CATALOG = 'SET-CATALOG';
+const SET_CURRENT_PAGE = 'SET-CURRENT-PAGE';
+const SET_PAGE_COUNT = 'SET-PAGE-COUNT';
 
 let initialState = {
     catalog: [
         {
-          id: "1",
-          photo: "cake1.png",
-          title: "Kkjsdfh  ksf kjdsfk h",
-          price: 13,
-          time: 4,
-          description: "qkwehkmnfd j lkjfh glkjsbgflvj sb qkwehkmnfd j lkjfh glkjsbgflvj sb qkwehkmnfd j lkjfh glkjsbgflvj sb qkwehkmnfd j lkjfh glkjsbgflvj sb qkwehkmnfd j lkjfh glkjsbgflvj sb qkwehkmnfd j lkjfh glkjsbgflvj sb qkwehkmnfd j lkjfh glkjsbgflvj sbqkwehkmnfd j lkjfh glkjsbgflvj sb"
+          id: "",
+          photo: "",
+          title: "",
+          price: 0,
+          time: 0,
+          description: ""
         }
       ],
-      sortType: "sortBy50"
+      sortType: 5,
+      currentPage: 2,
+      pageCount: 1
 }
 
 export const catalogReducer = (state = initialState, action) => {
@@ -38,21 +42,36 @@ export const catalogReducer = (state = initialState, action) => {
             return newState;
         }
         case SET_CATALOG:{
-          let newState = {...state};
-          newState.catalog = [];
-          action.catalogArr.forEach(element => {
-              let tempObj = {
-                title: element.title,
-                id: element.id,
-                price: element.price,
-                time: element.time.hours + ":" + element.time.minutes,
-                description: element.description,
-                photo: element.photo
-              }
-              newState.catalog.push(tempObj);
-          });
+            let newState = {...state};
+            newState.catalog = [];
+            if(action.catalogArr != null){
+                action.catalogArr.forEach(element => {
+                    let tempObj = {
+                        title: element.title,
+                        id: element.id,
+                        price: element.price,
+                        time: element.time.hours + ":" + element.time.minutes,
+                        description: element.description,
+                        photo: element.photo
+                    }
+                    newState.catalog.push(tempObj);
+                });
+            }
+            
+            
+            newState.pageCount = Math.ceil(action.totalCount / state.sortType);
           
-          return newState;
+            return newState;
+        }
+        case SET_CURRENT_PAGE:{
+            let newState = {...state};
+            newState.currentPage = action.current;
+            return newState;
+        }
+        case SET_PAGE_COUNT:{
+            let newState = {...state};
+            newState.pageCount = action.count;
+            return newState;
         }
         default: 
             return state;
@@ -66,9 +85,24 @@ export const changeSortTypeActionCreator = (newType) => {
     }
 }
 
-export const setCatalogActionCreator = (arr) => {
+export const setCatalogActionCreator = (obj) => {
   return {
       type: SET_CATALOG, 
-      catalogArr: arr
+      catalogArr: obj.catalog,
+      totalCount: obj.totalCount
   }
+}
+
+export const setCurrentPageActionCreator = (current) => {
+    return {
+        type: SET_CURRENT_PAGE, 
+        current: current
+    }
+}
+
+export const setPageCountActionCreator = (count) => {
+    return {
+        type: SET_PAGE_COUNT, 
+        count: count
+    }
 }

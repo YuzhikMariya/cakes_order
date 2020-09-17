@@ -1,11 +1,12 @@
 import React from 'react';
-import PageNav from './pageNav/pageNav';
 import SortPanelContainer from './sortPanel/sortPanelContainer';
 import { ProductListContainer } from './productList/productListContainer';
+import { PageNavContainer } from './pageNav/pageNavContainer';
 
 
 function Catalog(props) {
     return (
+        
         <div className="content">
             <h1>Catalog</h1>
             {(props.catalog.length !== 0)
@@ -13,7 +14,7 @@ function Catalog(props) {
                     <form>
                         <SortPanelContainer />
                         <ProductListContainer />
-                        <PageNav />
+                        <PageNavContainer />
                     </form>
                 )
                 : (
