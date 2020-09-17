@@ -1,0 +1,10 @@
+{
+  "version": 2,
+  "dgSpecHash": "6oLvV5hheLZ8+0qkGKUL8j1AZBf8D0RdcDVuCFTAIf/JiAnbAUcxS3gNCJr5s6BcyJOspFZpG8bkAb5JO6SkeQ==",
+  "success": true,
+  "projectFilePath": "D:\\Doc\\стажировка\\cakesOrder\\cake-ordering\\server\\server\\server.csproj",
+  "expectedPackageFiles": [
+    "C:\\Users\\masha\\.nuget\\packages\\newtonsoft.json\\12.0.3\\newtonsoft.json.12.0.3.nupkg.sha512"
+  ],
+  "logs": []
+}
