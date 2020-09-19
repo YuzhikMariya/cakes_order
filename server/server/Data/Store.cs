@@ -271,5 +271,7 @@ namespace server.Data
                     Photo = "cake3.png"
                 }
         };
+
+        public static List<User> Users = new List<User> { new User { Id = Guid.NewGuid().ToString(), Email = "mari.yuzhik@mail.ru", Name = "", phone = "", Surname = "", History = new List<CartItem>() } };
     };
 }

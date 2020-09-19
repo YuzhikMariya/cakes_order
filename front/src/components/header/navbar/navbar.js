@@ -1,9 +1,17 @@
 import React from 'react';
 import s from './navbar.module.css';
 import { NavLink } from 'react-router-dom';
+import Axios from 'axios';
 
 function Navbar(props) {
     let navItems = [];
+
+    let onSigout = () => {
+        Axios.get("https://localhost:44340/logout");
+        props.setRole("");
+    }
+
+    
     let tempItem = <NavLink className={s.item} activeClassName={s.active} exact to="/">All cakes</NavLink>;
     navItems.push(tempItem);
     switch(props.role){   
@@ -12,13 +20,13 @@ function Navbar(props) {
             navItems.push(tempItem);
             tempItem = <NavLink className={s.item} activeClassName={s.active} to="/acc">My account</NavLink>
             navItems.push(tempItem);
-            tempItem = <NavLink className={s.item} activeClassName={s.active} to="/signin">Sign out</NavLink>
+            tempItem = <NavLink className={s.item} onClick={onSigout} activeClassName={s.active} to="/signin">Sign out</NavLink>
             navItems.push(tempItem);
             break;
         case "admin":
             tempItem = <NavLink className={s.item} activeClassName={s.active} to="/admin">Edit catalog</NavLink>
             navItems.push(tempItem);
-            tempItem = <NavLink className={s.item} activeClassName={s.active} to="/signin">Sign out</NavLink>
+            tempItem = <NavLink className={s.item} onClick={onSigout} activeClassName={s.active} to="/signin">Sign out</NavLink>
             navItems.push(tempItem);
             break;
         default:
