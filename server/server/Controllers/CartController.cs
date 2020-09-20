@@ -45,5 +45,40 @@ namespace server.Controllers
 
             return Ok(response);
         }
+
+
+        [Route("changeCount")]
+        [HttpPost]
+        [Authorize]
+
+        public IActionResult Post(string id, int count)
+        {
+            foreach (CartItem cartItem in Store.Cart.CartList)
+            {
+                if (cartItem.Cake.Id == id)
+                {
+                    cartItem.Count = count;
+                    return Ok();
+                }
+            }
+            return NotFound();
+
+        }
+
+
+        [HttpDelete("{id}")]
+        [Authorize]
+        public IActionResult Delete(string id)
+        {
+            foreach (CartItem cartItem in Store.Cart.CartList)
+            {
+                if (cartItem.Cake.Id == id)
+                {
+                    Store.Cart.CartList.Remove(cartItem);
+                    return Ok();
+                }
+            }
+            return NotFound();
+        }
     }
 }

@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Hosting;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using server.Data;
@@ -15,6 +16,7 @@ namespace server.Controllers
     public class AdminController: Controller
     {
         [HttpPost]
+        [Authorize]
         public IActionResult Post(AddedCake cake)
         {
 

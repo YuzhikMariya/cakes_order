@@ -19,11 +19,6 @@ namespace server.Controllers
         //{
         //  //  db = context;
         //}
-        //[HttpGet]
-        //public IActionResult Login()
-        //{
-        //    return View();
-        //}
 
 
 
@@ -33,52 +28,52 @@ namespace server.Controllers
         public async Task<IActionResult> Login(Login model)
         {
             User user = null;
-                foreach(User u in Store.Users)
+            foreach(User u in Store.Users)
+            {
+                if(u.Email.Equals( model.Email))
                 {
-                    if(u.Email.Equals( model.Email))
-                    {
-                        user = u;
-                    }
+                    user = u;
                 }
+            }
 
-                if (user != null)
-                {
-                    await Authenticate(model.Email); // аутентификация
+            if (user != null)
+            {
+                await Authenticate(model.Email); // аутентификация
 
                 return Ok(new AuthResponse { Status = 200, Role = AuthResponse.User});
 
-                }
+            }
 
             return Ok(new AuthResponse { Status = 404, Role = AuthResponse.Guest });
         }
 
-        //[HttpGet]
-        //public IActionResult Register()
-        //{
-        //    return View();
-        //}
-        //[HttpPost]
+        [Route("register")]
+        [HttpPost]
         //[ValidateAntiForgeryToken]
-        //public async Task<IActionResult> Register(RegisterModel model)
-        //{
-        //    if (ModelState.IsValid)
-        //    {
-        //        User user = await db.Users.FirstOrDefaultAsync(u => u.Email == model.Email);
-        //        if (user == null)
-        //        {
-        //            // добавляем пользователя в бд
-        //            db.Users.Add(new User { Email = model.Email, Password = model.Password });
-        //            await db.SaveChangesAsync();
+        public async Task<IActionResult> Register(Registration model)
+        {
 
-        //            await Authenticate(model.Email); // аутентификация
+            User user = null;//await db.Users.FirstOrDefaultAsync(u => u.Email == model.Email);
+            foreach (User u in Store.Users)
+            {
+                System.Diagnostics.Debug.WriteLine(u.Email + "    " + model.Email);
+                if (u.Email.Equals(model.Email))
+                {
+                    user = u;
+                }
+            }
 
-        //            return RedirectToAction("Index", "Home");
-        //        }
-        //        else
-        //            ModelState.AddModelError("", "Некорректные логин и(или) пароль");
-        //    }
-        //    return View(model);
-        //}
+            if (user == null)
+            {
+                Store.Users.Add(new User { Id = Guid.NewGuid().ToString(), Email = model.Email, Name = model.Name, Surname = model.Surname, Phone = model.Phone, History = new List<CartItem>() });
+                await Authenticate(model.Email); // аутентификация
+
+                return Ok(new AuthResponse { Status = 200, Role = AuthResponse.User });
+
+            }
+
+            return Ok(new AuthResponse { Status = 404, Role = AuthResponse.Guest });
+        }
 
         private async Task Authenticate(string userName)
         {

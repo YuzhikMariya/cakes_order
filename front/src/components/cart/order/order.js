@@ -1,3 +1,4 @@
+import Axios from 'axios';
 import React from 'react';
 import s from './order.module.css';
 
@@ -5,18 +6,53 @@ function Order(props) {
 
 
     let decrease = (e) => {
-        let id = e.target.parentNode.parentNode.id;
-        props.onDecrease(id);
+        if(props.count > 1){
+                    
+            let id = e.target.parentNode.parentNode.id;
+            const postData = new FormData();
+            postData.append("id", id);
+            postData.append("count", props.count-1);
+            Axios.post("https://localhost:44340/api/cart/changeCount", postData)
+            .then(() => {
+                props.onDecrease(id);
+            }).catch(() => {
+                let {history } = props.history;
+                history.push("/signin");
+            });
+        }
+        
     }
 
     let increase = (e) => {
         let id = e.target.parentNode.parentNode.id;
-        props.onIncrease(id);
+        const postData = new FormData();
+        postData.append("id", id);
+        postData.append("count", props.count+1);
+        Axios.post("https://localhost:44340/api/cart/changeCount", postData)
+        .then(() => {
+            props.onIncrease(id);
+        }).catch(() => {
+            let {history } = props.history;
+            history.push("/signin");
+        });
+        
     }
 
     let deleteItem = (e) => {
         let id = e.target.parentNode.id;
-        props.onDelete(id);
+        const postData = new FormData();
+        postData.append("id", id);
+        Axios.delete(`https://localhost:44340/api/cart/${id}`, {
+            headers: {
+              'Content-Type': 'application/json'
+            }
+        }).then(() => {
+            props.onDelete(id);
+        }).catch(() => {
+            let {history } = props.history;
+            history.push("/signin");
+        })
+        
     }
 
     return (

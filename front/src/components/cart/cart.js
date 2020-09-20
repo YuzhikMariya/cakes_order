@@ -26,6 +26,10 @@ class Cart extends React.Component {
             });
             this.props.setCart(cart);
         })
+        .catch(() => {
+            const {history} = this.props;
+            history.push("/signin");
+        });
     }
 
     buy(e){
@@ -47,6 +51,9 @@ class Cart extends React.Component {
         Axios.post("https://localhost:44340/api/cart", postData)
         .then(res => {
             this.props.onBuyClick(res.data);
+        }).catch(() => {
+            const {history} = this.props;
+            history.push("/signin");
         });
         e.preventDefault();
         

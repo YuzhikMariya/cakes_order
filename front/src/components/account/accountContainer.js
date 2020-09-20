@@ -1,12 +1,13 @@
 import { connect } from "react-redux";
 import Account from "./account";
 import {setAccountActionCreator} from './../../redux/accountReducer';
+import {withRouter} from 'react-router-dom';
 
 let mapStateToProps = (state) => {
     
     return{
         personalInfo: state.accountPage.personalInfo,
-        history: state.accountPage.history
+        purchaseHistory: state.accountPage.history
     }   
 }
 
@@ -16,4 +17,6 @@ let mapDispatchToProps = (dispatch) => {
     }
 }
 
-export const AccountContainer = connect(mapStateToProps, mapDispatchToProps)(Account);
+let WithRouterContainer = withRouter(Account);
+
+export const AccountContainer = connect(mapStateToProps, mapDispatchToProps)(WithRouterContainer);

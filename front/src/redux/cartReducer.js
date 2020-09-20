@@ -41,7 +41,7 @@ export const cartReducer = (state = initialState, action) => {
         let newState = {...state};
         newState.cart = [];
         state.cart.forEach((el) => {
-          if((el.id == action.id) && (el.count > 1)){
+          if(el.id == action.id){
             el.count--;
           }
           newState.cart.push(el);

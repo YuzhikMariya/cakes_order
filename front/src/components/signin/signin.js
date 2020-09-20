@@ -1,7 +1,7 @@
 import React from 'react';
 import PersonalInfo from '../personalInfo/personalInfo';
 import './signin.css';
-import { NavLink, Redirect } from 'react-router-dom';
+import { NavLink } from 'react-router-dom';
 import Axios from 'axios';
 
 class SignIn extends React.Component {

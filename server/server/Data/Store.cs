@@ -131,7 +131,7 @@ namespace server.Data
             Name = "Diana",
             Surname = "Stadnik",
             Email = "d.stadnik@mail.ru",
-            phone = "+375296544563",
+            Phone = "+375296544563",
             History = History
         };
 
@@ -272,6 +272,6 @@ namespace server.Data
                 }
         };
 
-        public static List<User> Users = new List<User> { new User { Id = Guid.NewGuid().ToString(), Email = "mari.yuzhik@mail.ru", Name = "", phone = "", Surname = "", History = new List<CartItem>() } };
+        public static List<User> Users = new List<User> { new User { Id = Guid.NewGuid().ToString(), Email = "mari.yuzhik@mail.ru", Name = "", Phone = "", Surname = "", History = new List<CartItem>() } };
     };
 }

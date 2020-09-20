@@ -2,7 +2,7 @@ import React from 'react';
 import './App.css';
 import Header from './components/header/header';
 import Footer from './components/footer/footer';
-import Registration from './components/registration/registration';
+import {RegistrationContainer} from './components/registration/registrationContainer';
 import Catalog from './components/catalog/catalog';
 import { Route} from 'react-router-dom';
 import { CartContainer } from './components/cart/cartContainer';
@@ -15,7 +15,7 @@ function App(props) {
   return (
     <div className="wrapper">
         <Header />
-        <Route path="/registration" render={() => <Registration />}/>
+        <Route path="/registration" render={() => <RegistrationContainer />}/>
         <Route path="/signin" render={() => <SigninContainer />}/>
         <Route path="/admin" render={() => <AdminContainer />}/>
 

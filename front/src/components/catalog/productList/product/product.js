@@ -12,7 +12,6 @@ function Product(props) {
 
         Axios.post("https://localhost:44340/api/catalog", postData)
         .then(res => {
-            alert(JSON.stringify(res.data));
             props.onAddClick(res.data.id, res.data.photo, res.data.title, res.data.price);
         });
 
