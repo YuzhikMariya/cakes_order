@@ -4,6 +4,7 @@ import './signin.css';
 import { NavLink } from 'react-router-dom';
 import Axios from 'axios';
 import sha1 from 'js-sha1';
+import {Transition} from 'react-transition-group';
 
 class SignIn extends React.Component {
 
@@ -18,6 +19,9 @@ class SignIn extends React.Component {
         Axios.post("https://localhost:44340/login", postData).then(res => {
             if(res.data.status == 200){
                 history.push("/");
+            }else{
+                this.props.setPopup();
+                setTimeout(() => this.props.setPopup(), 4000);
             }
             this.props.setEmail("");
             this.props.setPassword("");
@@ -30,6 +34,14 @@ class SignIn extends React.Component {
     render(){
         return (
             <div className="content">
+                <Transition
+                    in={this.props.popup}
+                    timeout={500}
+                    mountOnEnter
+                    unmountOnExit
+                >
+                    {state => <div className={`popup ${state}`}> Incorrect email or password</div>}
+                </Transition>
                 <h1 className="content__header">Sign in to MasterCake</h1>
                 <div className="signin_form">
     

@@ -15,7 +15,8 @@ function Product(props) {
             props.onAddClick(res.data.id, res.data.photo, res.data.title, res.data.price);
         });
 
-        
+        props.setPopup();
+        setTimeout(() => props.setPopup(), 4000);
         e.preventDefault();
     }
 
@@ -28,7 +29,6 @@ function Product(props) {
                 <div className={s.time}>{props.time} min</div>
                 <button onClick={onAddClick} className={s.btn}>Add</button>
             </NavLink>
-            
         </div>
     );
 }

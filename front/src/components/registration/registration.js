@@ -4,6 +4,7 @@ import PersonalInfo from '../personalInfo/personalInfo';
 import { NavLink } from 'react-router-dom';
 import Axios from 'axios';
 import sha1 from 'js-sha1';
+import {Transition} from 'react-transition-group';
 
 function Registration(props) {
 
@@ -21,6 +22,9 @@ function Registration(props) {
         Axios.post("https://localhost:44340/register", postData).then(res => {
             if(res.data.status == 200){
                 history.push("/");
+            }else{
+                props.setPopup();
+                setTimeout(() => props.setPopup(), 4000);
             }
             props.setEmail("");
             props.setPassword("");
@@ -34,6 +38,14 @@ function Registration(props) {
 
     return (
         <div className="content">
+            <Transition
+                    in={props.popup}
+                    timeout={500}
+                    mountOnEnter
+                    unmountOnExit
+            >
+                    {state => <div className={`popup ${state}`}>User with this email already exists</div>}
+            </Transition>
             <h1>Register on MasterCake</h1>
             <form className="registration_form">
                 <PersonalInfo title="name" type="name" onChange={props.setName} value={props.name}/>

@@ -91,7 +91,7 @@ namespace server.Controllers
             User user = null;//await db.Users.FirstOrDefaultAsync(u => u.Email == model.Email);
             foreach (User u in Store.Users)
             {
-                if ((u.Email == model.Email) && (u.Password == model.Password))
+                if (u.Email == model.Email)
                 {
                     user = u;
                 }

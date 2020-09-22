@@ -1,13 +1,14 @@
 import { connect } from "react-redux";
 import SignIn from "./signin";
-import {setEmailActionCreator, setPasswordActionCreator, setRoleActionCreator} from './../../redux/registrationReducer';
+import {setEmailActionCreator, setPasswordActionCreator, setRoleActionCreator, setPopupActionCreator} from './../../redux/registrationReducer';
 import {setCurrentPageActionCreator} from './../../redux/catalogReducer';
 import {withRouter} from 'react-router-dom';
 
 let mapStateToProps = (state) => {
     return{
         email: state.registrationPage.currentEmail,
-        password: state.registrationPage.currentPassword
+        password: state.registrationPage.currentPassword,
+        popup: state.registrationPage.popup
     }
 }
 
@@ -16,7 +17,8 @@ let mapDispatchToProps = (dispatch) => {
         setEmail: (email) => dispatch(setEmailActionCreator(email)),
         setPassword: (password) => dispatch(setPasswordActionCreator(password)),
         setRole: (role) => dispatch(setRoleActionCreator(role)),
-        setStartPage: () => dispatch(setCurrentPageActionCreator(1))
+        setStartPage: () => dispatch(setCurrentPageActionCreator(1)),
+        setPopup: () => dispatch(setPopupActionCreator())
     }
 }
 

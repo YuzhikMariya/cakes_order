@@ -6,6 +6,7 @@ const SET_REG_PASSWORD = 'SET-REG-PASSWORD';
 const SET_REG_NAME = 'SET-REG-NAME';
 const SET_REG_SURNAME = 'SET-REG-SURNAME';
 const SET_REG_PHONE = 'SET-REG-PHONE';
+const SET_POPUP = 'SET-POPUP';
 
 let initialState = {
     currentPassword: "",
@@ -17,7 +18,8 @@ let initialState = {
         name: "",
         surname: "",
         phone: ""
-    }
+    },
+    popup: false
 }
 
 export const registrationReducer = (state = initialState, action) => {
@@ -60,6 +62,11 @@ export const registrationReducer = (state = initialState, action) => {
         case SET_REG_SURNAME:{
             let newState = {...state};
             newState.registration.surname = action.surname;
+            return newState;
+        }
+        case SET_POPUP:{
+            let newState = {...state};
+            newState.popup = !state.popup;
             return newState;
         }
         default: 
@@ -120,6 +127,12 @@ export const setRegPasswordActionCreator = (password) => {
     return{
         type: SET_REG_PASSWORD,
         password: password
+    }
+}
+
+export const setPopupActionCreator = () => {
+    return{
+        type: SET_POPUP
     }
 }
 
