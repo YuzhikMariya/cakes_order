@@ -10,7 +10,7 @@ const SET_REG_PHONE = 'SET-REG-PHONE';
 let initialState = {
     currentPassword: "",
     currentEmail: "",
-    role: "user",
+    role: "",
     registration: {
         password: "", 
         email: "",

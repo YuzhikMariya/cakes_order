@@ -1,6 +1,7 @@
 import { connect } from "react-redux";
 import SignIn from "./signin";
 import {setEmailActionCreator, setPasswordActionCreator, setRoleActionCreator} from './../../redux/registrationReducer';
+import {setCurrentPageActionCreator} from './../../redux/catalogReducer';
 import {withRouter} from 'react-router-dom';
 
 let mapStateToProps = (state) => {
@@ -14,7 +15,8 @@ let mapDispatchToProps = (dispatch) => {
     return{
         setEmail: (email) => dispatch(setEmailActionCreator(email)),
         setPassword: (password) => dispatch(setPasswordActionCreator(password)),
-        setRole: (role) => dispatch(setRoleActionCreator(role))
+        setRole: (role) => dispatch(setRoleActionCreator(role)),
+        setStartPage: () => dispatch(setCurrentPageActionCreator(1))
     }
 }
 

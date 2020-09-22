@@ -22,6 +22,7 @@ class SignIn extends React.Component {
             this.props.setEmail("");
             this.props.setPassword("");
             this.props.setRole(res.data.role);
+            this.props.setStartPage();
         }
         );
     }

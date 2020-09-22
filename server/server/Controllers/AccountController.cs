@@ -20,7 +20,28 @@ namespace server.Controllers
         //  //  db = context;
         //}
 
+        [Route("/role")]
+        [HttpGet]
+        public string GetRole()
+        {
+            string userEmail = HttpContext.User.Identity.Name;
+            foreach (User u in Store.Users)
+            {
+                if (u.Email == userEmail)
+                {
+                    return AuthResponse.User;
+                }
+            }
 
+            foreach (Admin a in Store.Admins)
+            {
+                if (a.Email == userEmail)
+                {
+                    return AuthResponse.Admin;
+                }
+            }
+            return AuthResponse.Guest;
+        }
 
         [Route("login")]
         [HttpPost]

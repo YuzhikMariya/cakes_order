@@ -11,6 +11,8 @@
 # production
 /build
 
+*/**/bin/Debug
+
 # misc
 .DS_Store
 .env.local
