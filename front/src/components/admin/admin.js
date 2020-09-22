@@ -28,7 +28,7 @@ function Admin(props) {
                     <CakeInfo title="time" type="time"  onChange={props.onTimeChange}/>
                     <div >
                         <div><label >Cake file:</label></div>
-                        <input onChange={changFile}  type="file" required/>
+                        <input onChange={changFile}  type="file" accept="image/jpeg,image/png,image/jpg" required/>
                     </div> 
                     
                     <div class="cake_inf description">

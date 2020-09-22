@@ -3,15 +3,17 @@ import './registration.css';
 import PersonalInfo from '../personalInfo/personalInfo';
 import { NavLink } from 'react-router-dom';
 import Axios from 'axios';
+import sha1 from 'js-sha1';
 
 function Registration(props) {
 
     let onClick = (e) => {
         const {history} = props;
         e.preventDefault();
+        let SHA1Password = sha1(props.password);
         const postData = new FormData();
         postData.append("email", props.email);
-        postData.append("password", props.password);
+        postData.append("password", SHA1Password);
         postData.append("name", props.name);
         postData.append("surname", props.surname);
         postData.append("phone", props.phone);

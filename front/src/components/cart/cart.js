@@ -13,18 +13,7 @@ class Cart extends React.Component {
 
         http.get("https://localhost:44340/api/cart", { cache: false }).then(res => 
         {
-            let cart = [];
-            res.data.cartList.forEach(element => {
-                let tempObj = {
-                    id: element.cake.id, 
-                    photo: element.cake.photo,
-                    title: element.cake.title,
-                    price: element.cake.price,
-                    count: element.count
-                };
-                cart.push(tempObj);
-            });
-            this.props.setCart(cart);
+            this.props.setCart(res.data);
         })
         .catch(() => {
             const {history} = this.props;

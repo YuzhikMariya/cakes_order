@@ -24,13 +24,12 @@ namespace server.Controllers
 
         [Route("login")]
         [HttpPost]
-       // [ValidateAntiForgeryToken]
         public async Task<IActionResult> Login(Login model)
         {
             User user = null;
             foreach(User u in Store.Users)
             {
-                if(u.Email.Equals( model.Email))
+                if((u.Email == model.Email) && (u.Password == model.Password))
                 {
                     user = u;
                 }
@@ -38,26 +37,40 @@ namespace server.Controllers
 
             if (user != null)
             {
-                await Authenticate(model.Email); // аутентификация
-
+                await Authenticate(model.Email, "User");
                 return Ok(new AuthResponse { Status = 200, Role = AuthResponse.User});
+            }
+
+            Admin admin = null;
+            foreach (Admin a in Store.Admins)
+            {
+                if ((a.Email == model.Email) && (a.Password == model.Password))
+                {
+                    admin = a;
+                }
+            }
+
+            if (admin != null)
+            {
+                await Authenticate(model.Email, "Admin");
+
+                return Ok(new AuthResponse { Status = 200, Role = AuthResponse.Admin });
 
             }
+
+
 
             return Ok(new AuthResponse { Status = 404, Role = AuthResponse.Guest });
         }
 
         [Route("register")]
         [HttpPost]
-        //[ValidateAntiForgeryToken]
         public async Task<IActionResult> Register(Registration model)
         {
-
             User user = null;//await db.Users.FirstOrDefaultAsync(u => u.Email == model.Email);
             foreach (User u in Store.Users)
             {
-                System.Diagnostics.Debug.WriteLine(u.Email + "    " + model.Email);
-                if (u.Email.Equals(model.Email))
+                if ((u.Email == model.Email) && (u.Password == model.Password))
                 {
                     user = u;
                 }
@@ -65,9 +78,11 @@ namespace server.Controllers
 
             if (user == null)
             {
-                Store.Users.Add(new User { Id = Guid.NewGuid().ToString(), Email = model.Email, Name = model.Name, Surname = model.Surname, Phone = model.Phone, History = new List<CartItem>() });
-                await Authenticate(model.Email); // аутентификация
-
+                string cartId = Guid.NewGuid().ToString(), historyId = Guid.NewGuid().ToString();
+                Store.Carts.Add(new Cart { Id = cartId, CartList = new List<CartItem>() });
+                Store.Histories.Add(new History { Id = historyId, HistoryList = new List<CartItem>() });
+                Store.Users.Add(new User { Id = Guid.NewGuid().ToString(), Email = model.Email, Name = model.Name, Surname = model.Surname, Phone = model.Phone, HistoryID = historyId, CartID = cartId });
+                await Authenticate(model.Email, "User");
                 return Ok(new AuthResponse { Status = 200, Role = AuthResponse.User });
 
             }
@@ -75,16 +90,15 @@ namespace server.Controllers
             return Ok(new AuthResponse { Status = 404, Role = AuthResponse.Guest });
         }
 
-        private async Task Authenticate(string userName)
+        private async Task Authenticate(string userName, string role)
         {
-            // создаем один claim
             var claims = new List<Claim>
             {
-                new Claim(ClaimsIdentity.DefaultNameClaimType, userName)
+                new Claim(ClaimsIdentity.DefaultNameClaimType, userName),
+                new Claim(ClaimTypes.Role, role)
             };
-            // создаем объект ClaimsIdentity
             ClaimsIdentity id = new ClaimsIdentity(claims, "ApplicationCookie", ClaimsIdentity.DefaultNameClaimType, ClaimsIdentity.DefaultRoleClaimType);
-            // установка аутентификационных куки
+
             await HttpContext.SignInAsync(CookieAuthenticationDefaults.AuthenticationScheme, new ClaimsPrincipal(id));
         }
 

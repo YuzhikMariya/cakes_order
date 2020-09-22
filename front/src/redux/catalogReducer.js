@@ -16,7 +16,7 @@ let initialState = {
         }
       ],
       sortType: 5,
-      currentPage: 2,
+      currentPage: 1,
       pageCount: 1
 }
 
@@ -58,8 +58,11 @@ export const catalogReducer = (state = initialState, action) => {
                 });
             }
             
-            
-            newState.pageCount = Math.ceil(action.totalCount / state.sortType);
+            if(state.sortType == 1){
+                newState.pageCount = 1;
+            }else{
+                newState.pageCount = Math.ceil(action.totalCount / state.sortType);
+            }
           
             return newState;
         }

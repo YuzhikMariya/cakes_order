@@ -9,7 +9,7 @@ function Catalog(props) {
         
         <div className="content">
             <h1>Catalog</h1>
-            {(props.catalog.length !== 0)
+            {(props.catalogLength !== 0)
                 ? (
                     <form>
                         <SortPanelContainer />

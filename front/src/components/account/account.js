@@ -8,7 +8,12 @@ class Account extends React.Component{
     componentDidMount(){
         Axios.get("https://localhost:44340/api/user").then(res => 
         {
-            this.props.setAccount(res.data);
+            if(res.data.user != null){
+                this.props.setAccount(res.data);
+            }else{
+                throw "";
+            }
+            
         }).catch(() => {
             const {history} = this.props;
             history.push("/signin");

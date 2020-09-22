@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Security.Claims;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Builder;
@@ -26,6 +27,19 @@ namespace server
                 {
                     options.LoginPath = new PathString("/index");
                 });
+            services.AddAuthorization(options =>
+            {
+                options.AddPolicy("Admin", builder =>
+                {
+                    builder.RequireClaim(ClaimTypes.Role, "Admin");
+                });
+
+                options.AddPolicy("User", builder =>
+                {
+                    builder.RequireClaim(ClaimTypes.Role, "User");
+                });
+            });
+
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

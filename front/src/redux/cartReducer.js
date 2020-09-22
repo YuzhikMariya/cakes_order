@@ -122,7 +122,18 @@ export const addToCartActionCreator = (id, photo, title, price) => {
   }
 }
 
-export const setCartActionCreator = (cart) => {
+export const setCartActionCreator = (obj) => {
+  let cart = [];
+  obj.forEach(element => {
+    let tempCartItem = {
+      id: element.cake.id,
+      photo: element.cake.photo,
+      title: element.cake.title,
+      price: element.cake.price,
+      count: element.count
+    };
+    cart.push(tempCartItem);
+  });
   return {
     type: SET_CART,
     cart: cart

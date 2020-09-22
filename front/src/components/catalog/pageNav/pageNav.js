@@ -29,8 +29,9 @@ class PageNav extends React.Component {
 
     toNext(e){
         e.preventDefault();
-        let next = this.props.currentPage + 1;
+        let next = parseInt(this.props.currentPage) + 1;
         if(next <= this.props.pageCount){
+            
             this.setCatalog(next);
         }
     }

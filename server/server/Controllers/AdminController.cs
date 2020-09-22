@@ -13,13 +13,13 @@ using System.Threading.Tasks;
 namespace server.Controllers
 {
     [Route("api/[controller]")]
+    [Authorize(Roles = "Admin")]
     public class AdminController: Controller
     {
         [HttpPost]
         [Authorize]
         public IActionResult Post(AddedCake cake)
         {
-
             Cake newCake = new Cake();
             newCake.Id = Guid.NewGuid().ToString();
             newCake.Title = cake.Title;

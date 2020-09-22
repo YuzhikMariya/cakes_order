@@ -23,6 +23,10 @@ namespace server.Controllers
         [HttpGet]
         public CatalogWithTotalCount Get(int page, int pageSize)
         {
+            if(pageSize == 0)
+            {
+                pageSize = Store.Catalog.Count;
+            }
             var catalogArray = Store.Catalog.ToArray();
             int length = catalogArray.Length;
             int startIndex = (page - 1) * pageSize;
@@ -37,21 +41,66 @@ namespace server.Controllers
                 count = length-startIndex;
             }
             Cake[] resultArray = new Cake[count];
-            Array.Copy(catalogArray, startIndex, resultArray, 0, count);
+            
+
+            for(int i = startIndex; i < startIndex+count; i++)
+            {
+                TimeSpan newTime = catalogArray[i].Time;
+                foreach (var cookingId in Store.CookingList.ListOfId)
+                {
+                    if (catalogArray[i].Id == cookingId)
+                    {
+                        newTime = newTime.Add(catalogArray[i].Time);
+                    }
+                }
+                resultArray[i - startIndex] = new Cake
+                {
+                    Id = catalogArray[i].Id,
+                    Photo = catalogArray[i].Photo,
+                    Price = catalogArray[i].Price,
+                    Description = catalogArray[i].Description,
+                    Title = catalogArray[i].Title,
+                    Time = newTime
+
+                };
+            }
+            
             CatalogWithTotalCount resultCake = new CatalogWithTotalCount { Catalog = resultArray, TotalCount = length };
             return resultCake;
         }
 
+        Cart getUserCart(string userEmail)
+        {
+            string cartId = "";
+            foreach (User u in Store.Users)
+            {
+                if (u.Email == userEmail)
+                {
+                    cartId = u.CartID;
+                    break;
+                }
+            }
+            foreach (Cart cart in Store.Carts)
+            {
+                if (cart.Id == cartId)
+                {
+                    return cart;
+                }
+            }
+            return null;
+        }
 
         [HttpPost]
         public IActionResult Post(string id)
         {
+            string userEmail = HttpContext.User.Identity.Name;
+            Cart cart = getUserCart(userEmail);
             foreach (Cake cake in Store.Catalog)
             {
                 if (cake.Id == id)
                 {
-                    CartItem cartItem = new CartItem { Cake = cake, Count = 1 };
-                    Store.Cart.CartList.Add(cartItem);
+                    CartItem cartItem = new CartItem { CakeId = id, Count = 1 };
+                    cart.CartList.Add(cartItem);
                     return Ok(cake);
                 }
             }

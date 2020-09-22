@@ -3,6 +3,7 @@ import PersonalInfo from '../personalInfo/personalInfo';
 import './signin.css';
 import { NavLink } from 'react-router-dom';
 import Axios from 'axios';
+import sha1 from 'js-sha1';
 
 class SignIn extends React.Component {
 
@@ -10,9 +11,10 @@ class SignIn extends React.Component {
     onClick(e){
         const {history} = this.props;
         e.preventDefault();
+        let SHA1Password = sha1(this.props.password);
         const postData = new FormData();
         postData.append("email", this.props.email);
-        postData.append("password", this.props.password);
+        postData.append("password", SHA1Password);
         Axios.post("https://localhost:44340/login", postData).then(res => {
             if(res.data.status == 200){
                 history.push("/");
