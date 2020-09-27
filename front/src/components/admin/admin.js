@@ -51,9 +51,9 @@ function Admin(props) {
                         <div><label >Cake photo:</label></div>
                         <input onChange={changPhoto}  type="file" accept="image/jpeg,image/png,image/jpg" required/>
                     </div> 
-                    <div class="cake_inf description">
+                    <div className={s.description}>
                             <label for="description">Description:</label>
-                            <textarea class={s.description} onChange={changeTextArea} class="input_data" id="description" rows="5"></textarea>
+                            <textarea onChange={changeTextArea} maxLength="500" class="input_data" id="description" rows="5" cols="60"></textarea>
                     </div>
                 </div>
                     

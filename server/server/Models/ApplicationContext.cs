@@ -14,17 +14,7 @@ namespace server.Models
         public DbSet<History> Histories { get; set; }
         public DbSet<Cake> Catalog { get; set; }
         public DbSet<CookingCake> CookingList { get; set; }
-
-        //protected override void OnModelCreating(ModelBuilder modelBuilder)
-       // {
-           // modelBuilder.Entity<Cart>()
-             //   .HasNoKey();
-            //.HasKey(c => new { c.CakeId, c.UserId });
-
-           // modelBuilder.Entity<History>()
-             //   .HasNoKey();
-                //.HasKey(h => new { h.CakeId, h.UserId });
-        //}
+        public DbSet<ShopInfo> ShopInfo { get; set; }
 
         public ApplicationContext(DbContextOptions<ApplicationContext> options)
             : base(options)
