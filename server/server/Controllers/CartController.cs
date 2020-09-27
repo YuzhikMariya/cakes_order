@@ -5,7 +5,6 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
 using server.Models;
-using server.Data;
 using Microsoft.AspNetCore.Authorization;
 using server.Models.ResponseModels;
 using Microsoft.EntityFrameworkCore;

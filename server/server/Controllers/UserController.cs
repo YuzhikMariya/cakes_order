@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using Microsoft.AspNetCore.Mvc;
 using server.Models;
-using server.Data;
 using Microsoft.AspNetCore.Authorization;
 using server.Models.ResponseModels;
 using System.Linq;
