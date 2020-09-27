@@ -8,7 +8,15 @@ class Account extends React.Component{
     componentDidMount(){
         Axios.get("https://localhost:44340/api/user").then(res => 
         {
-            this.props.setAccount(res.data);
+            if(res.data.user != null){
+                this.props.setAccount(res.data);
+            }else{
+                throw "";
+            }
+            
+        }).catch(() => {
+            const {history} = this.props;
+            history.push("/signin");
         });
     }
 
@@ -22,7 +30,7 @@ class Account extends React.Component{
                     <div className={s.info}>Name: <span className={s.user_data}>{user.name}</span></div>
                     <div className={s.info}>E-mail: <span className={s.user_data}>{user.email}</span></div>
                     <div className={s.info}>Phone: <span className={s.user_data}>{user.phone}</span></div>
-                    <History history={this.props.history}/>
+                    <History history={this.props.purchaseHistory}/>
                 </div>
             </div>
     );

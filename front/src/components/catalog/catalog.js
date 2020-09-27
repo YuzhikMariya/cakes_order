@@ -9,21 +9,11 @@ function Catalog(props) {
         
         <div className="content">
             <h1>Catalog</h1>
-            {(props.catalog.length !== 0)
-                ? (
-                    <form>
-                        <SortPanelContainer />
-                        <ProductListContainer />
-                        <PageNavContainer />
-                    </form>
-                )
-                : (
-                    <div className="empty">
-                        There isn't any cake(
-                    </div>
-                )
-            }
-            
+            <form>
+                <SortPanelContainer />
+                <ProductListContainer />
+                <PageNavContainer />
+            </form>
         </div>
     );
 }

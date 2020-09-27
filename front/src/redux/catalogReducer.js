@@ -3,21 +3,17 @@ const ADD_TO_CATALOG = 'ADD-TO-CATALOG';
 const SET_CATALOG = 'SET-CATALOG';
 const SET_CURRENT_PAGE = 'SET-CURRENT-PAGE';
 const SET_PAGE_COUNT = 'SET-PAGE-COUNT';
+const SET_POPUP = 'SET-POPUP';
 
 let initialState = {
     catalog: [
         {
-          id: "",
-          photo: "",
-          title: "",
-          price: 0,
-          time: 0,
-          description: ""
         }
       ],
       sortType: 5,
-      currentPage: 2,
-      pageCount: 1
+      currentPage: 1,
+      pageCount: 1,
+      popup: false
 }
 
 export const catalogReducer = (state = initialState, action) => {
@@ -58,8 +54,11 @@ export const catalogReducer = (state = initialState, action) => {
                 });
             }
             
-            
-            newState.pageCount = Math.ceil(action.totalCount / state.sortType);
+            if(state.sortType == 1){
+                newState.pageCount = 1;
+            }else{
+                newState.pageCount = Math.ceil(action.totalCount / state.sortType);
+            }
           
             return newState;
         }
@@ -71,6 +70,11 @@ export const catalogReducer = (state = initialState, action) => {
         case SET_PAGE_COUNT:{
             let newState = {...state};
             newState.pageCount = action.count;
+            return newState;
+        }
+        case SET_POPUP:{
+            let newState = {...state};
+            newState.popup = !state.popup;
             return newState;
         }
         default: 
@@ -104,5 +108,11 @@ export const setPageCountActionCreator = (count) => {
     return {
         type: SET_PAGE_COUNT, 
         count: count
+    }
+}
+
+export const setPopupActionCreator = () => {
+    return{
+        type: SET_POPUP
     }
 }

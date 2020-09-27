@@ -1,6 +1,5 @@
 import Axios from 'axios';
 import React from 'react';
-import { NavLink } from 'react-router-dom';
 import s from './sortPanel.module.css'
 
 function SortPanel(props) {
@@ -10,10 +9,11 @@ function SortPanel(props) {
         let pageSize = e.target.id;
         props.changeSortType(pageSize);
         if(pageSize == 1){
-            pageSize = 10;
+            pageSize = 0;
         }
-        Axios.get(`https://localhost:44340/api/catalog?page=${props.currentPage}&pageSize=${pageSize}`).then(res => 
+        Axios.get(`https://localhost:44340/api/catalog?page=1&pageSize=${pageSize}`).then(res => 
         {
+            props.setCurrentPage(1);
             props.setCatalog(res.data);
 
         });

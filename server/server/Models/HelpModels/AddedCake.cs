@@ -6,7 +6,7 @@ namespace server.Models
     {
         public string Title { get; set; }
         public string Time { get; set; }
-        public int Price { get; set; }
+        public string Price { get; set; }
         public string Description { get; set; }
 
         public IFormFile Img { get; set; }

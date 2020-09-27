@@ -60,3 +60,45 @@ body,
 .empty{
   padding-top: 10em;
 }
+
+
+.popup{
+  position: fixed;
+
+  left: 0;
+  right: 0;
+
+
+  width: 20%;
+  height: 10%;
+  margin: 0 auto;
+
+  padding: 2.1em 2em 0 2em;
+  font-size: 18px;
+  animation: show-loader 3s forwards;
+  
+  z-index: 2;
+  background-color: var(--light-background-color);
+  border: 1px solid var(--main-text-color) ;
+
+}
+
+@keyframes show-loader{
+  0%{
+      opacity: 0;
+      transform: translateY(0vh);
+  }
+  50%{
+    opacity: 1;
+  }
+  100%{
+      opacity: 1;
+      transform: translateY(5vh);
+  }
+}
+
+
+
+.popup.entering{
+  animation: show-loader 3s forwards;
+}

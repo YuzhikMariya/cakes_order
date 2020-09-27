@@ -1,7 +1,7 @@
-﻿using Microsoft.AspNetCore.Hosting;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-using server.Data;
 using server.Models;
 using System;
 using System.Collections.Generic;
@@ -12,19 +12,32 @@ using System.Threading.Tasks;
 namespace server.Controllers
 {
     [Route("api/[controller]")]
+    [Authorize(Roles = "Admin")]
     public class AdminController: Controller
     {
-        [HttpPost]
-        public IActionResult Post(AddedCake cake)
-        {
 
-            Cake newCake = new Cake();
-            newCake.Id = Guid.NewGuid().ToString();
-            newCake.Title = cake.Title;
-            newCake.Price = cake.Price;
-            newCake.Time = TimeSpan.Parse(cake.Time);
-            newCake.Description = cake.Description;
-            
+        private ApplicationContext db;
+        public AdminController(ApplicationContext context)
+        {
+            db = context;
+        }
+
+        [HttpPost]
+        [Authorize]
+        public async Task<IActionResult> Post(AddedCake cake)
+        {
+            char separator = System.Globalization.CultureInfo.CurrentCulture.NumberFormat.CurrencyDecimalSeparator[0];
+            string stringPrice = cake.Price.Replace('.', separator);
+            decimal price = Convert.ToDecimal(stringPrice);
+            Cake newCake = new Cake
+            {
+                Id = Guid.NewGuid().ToString(),
+                Title = cake.Title,
+                Price = price,
+                Time = TimeSpan.Parse(cake.Time),
+                Description = cake.Description
+            };
+
 
             try
             {
@@ -34,7 +47,8 @@ namespace server.Controllers
                     cake.Img.CopyTo(stream);
                 }
                 newCake.Photo = cake.Img.FileName;
-                Store.Catalog.Add(newCake);
+                db.Catalog.Add(newCake);
+                await db.SaveChangesAsync(); 
                 return Ok();
             }
             catch (Exception)

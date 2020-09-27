@@ -9,7 +9,7 @@ let reducers = combineReducers({
     catalogPage: catalogReducer,
     cartPage: cartReducer,
     accountPage: accountReducer,
-    role: registrationReducer,
+    registrationPage: registrationReducer,
     newCake: newCakeReducer
 })
 

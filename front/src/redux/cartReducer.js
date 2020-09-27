@@ -7,20 +7,20 @@ const SET_CART = 'SET-CART';
 
 let initialState = {
     cart: [
-        {
-          id: "1", 
-          photo: "cake1.png",
-          title: "Kkjsdfh  ksf kjdsfk h",
-          price: 13,
-          count: 4
-        },
-        {
-          id: "2", 
-          photo: "cake2.png",
-          title: "Kkjsdfh  ksf  h",
-          price: 13,
-          count: 54
-        }
+        // {
+        //   id: "1", 
+        //   photo: "cake1.png",
+        //   title: "Kkjsdfh  ksf kjdsfk h",
+        //   price: 13,
+        //   count: 4
+        // },
+        // {
+        //   id: "2", 
+        //   photo: "cake2.png",
+        //   title: "Kkjsdfh  ksf  h",
+        //   price: 13,
+        //   count: 54
+        // }
       ]
 }
 
@@ -41,7 +41,7 @@ export const cartReducer = (state = initialState, action) => {
         let newState = {...state};
         newState.cart = [];
         state.cart.forEach((el) => {
-          if((el.id == action.id) && (el.count > 1)){
+          if(el.id == action.id){
             el.count--;
           }
           newState.cart.push(el);
@@ -62,11 +62,17 @@ export const cartReducer = (state = initialState, action) => {
       case ADD_TO_CART:{
         let newState = {...state};
         newState.cart = [];
+        let isExists = false;
         state.cart.forEach((el) => {
+          if(el.id == action.addToCartItem.id){
+            isExists = true;
+            el.count += action.addToCartItem.count;
+          }
           newState.cart.push(el);
-        })
-        newState.cart.push(action.addToCartItem);
-        
+        });
+        if(!isExists){
+          newState.cart.push(action.addToCartItem);
+        }
         return newState;
       }
       case SET_CART:{
@@ -122,7 +128,18 @@ export const addToCartActionCreator = (id, photo, title, price) => {
   }
 }
 
-export const setCartActionCreator = (cart) => {
+export const setCartActionCreator = (obj) => {
+  let cart = [];
+  obj.forEach(element => {
+    let tempCartItem = {
+      id: element.cake.id,
+      photo: element.cake.photo,
+      title: element.cake.title,
+      price: element.cake.price,
+      count: element.count
+    };
+    cart.push(tempCartItem);
+  });
   return {
     type: SET_CART,
     cart: cart

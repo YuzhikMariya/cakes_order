@@ -1,4 +1,4 @@
-import {changeSortTypeActionCreator, setCatalogActionCreator} from './../../../redux/catalogReducer';
+import {changeSortTypeActionCreator, setCatalogActionCreator, setCurrentPageActionCreator} from './../../../redux/catalogReducer';
 import {connect} from "react-redux";
 import SortPanel from './sortPanel';
 
@@ -14,7 +14,8 @@ let mapDispatchToProps = (dispatch) => {
         changeSortType: (newType) => {
             dispatch(changeSortTypeActionCreator(newType));
         },
-        setCatalog: (obj) => dispatch(setCatalogActionCreator(obj))
+        setCatalog: (obj) => dispatch(setCatalogActionCreator(obj)),
+        setCurrentPage: (page) => dispatch(setCurrentPageActionCreator(page))
     }
 }
 

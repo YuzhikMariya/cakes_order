@@ -2,16 +2,16 @@ const SET_ACCOUNT = 'SET-ACCOUNT';
 
 let initialState = {
     personalInfo: {
-        surname: "Yuzhyk",
-        name: "Masha",
-        email: "mari.yuzhik@mail.ru",
-        phone: "+375296965625"
+        surname: "",
+        name: "",
+        email: "",
+        phone: ""
       },
       history: [
         {
-          title: "The best cake",
-          id: "1",
-          count: 2
+          title: "",
+          id: "",
+          count: 0
         }
       ]
 }
@@ -38,13 +38,14 @@ export const accountReducer = (state = initialState, action) => {
 }
 
 export const setAccountActionCreator = (user) => {
+  let {name, surname, email, phone} = user.user;
   return{
     type: SET_ACCOUNT,
     personalInfo: {
-      name: user.name,
-      surname: user.surname,
-      email: user.email,
-      phone: user.phone
+      name: name,
+      surname: surname,
+      email: email,
+      phone: phone
     },
     history: user.history
   }

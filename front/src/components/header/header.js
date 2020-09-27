@@ -1,13 +1,13 @@
 import React from 'react';
 import './header.css';
 import Logo from './logo/logo';
-import Navbar from './navbar/navbar';
+import { NavbarContainer } from './navbar/navbarContainer';
 
-function Header(props) {
+function Header() {
     return (
         <header>
             <Logo />
-            <Navbar role={props.role}/>
+            <NavbarContainer/>
         </header>
     );
 }
