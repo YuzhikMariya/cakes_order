@@ -8,12 +8,6 @@ const SET_POPUP = 'SET-POPUP';
 let initialState = {
     catalog: [
         {
-          id: "",
-          photo: "",
-          title: "",
-          price: 0,
-          time: 0,
-          description: ""
         }
       ],
       sortType: 5,

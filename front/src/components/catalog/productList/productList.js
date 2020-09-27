@@ -17,21 +17,35 @@ class  ProductList extends React.Component {
     render(){
         let sortClass = "sortBy"+this.props.sortCount;
         return (
-            <div className={`${s.product_list} ${s[sortClass]}`}>
-            <Transition
-                in={this.props.popup}
-                timeout={500}
-                mountOnEnter
-                unmountOnExit
-                >
-                {state => <div className={`popup ${state}`}> Product added to cart</div>}
-            </Transition>
+            <div>
+            {(this.props.products.length != 0 
+            && Object.keys(this.props.products[0]).length !== 0)
+                ? (
+                    <div className={`${s.product_list} ${s[sortClass]}`}>
+                    <Transition
+                        in={this.props.popup}
+                        timeout={500}
+                        mountOnEnter
+                        unmountOnExit
+                        >
+                        {state => <div className={`popup ${state}`}> Product added to cart</div>}
+                    </Transition>
+                    {this.props.products.map(el => {
+                        return <ProductContainer id={el.id} photo={el.photo} title={el.title} time={el.time} price={el.price}/>
+                    })}
 
-                {this.props.products.map(el => {
-                    return <ProductContainer id={el.id} photo={el.photo} title={el.title} time={el.time} price={el.price}/>
-                })}
+                
     
+                    </div>
+                )
+                : (
+                        <div className={s.empty}>
+                            There isn't any cake(
+                        </div>
+                )
+            }
             </div>
+            
         );
     }
     

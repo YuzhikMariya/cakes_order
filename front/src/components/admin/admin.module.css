@@ -1,0 +1,12 @@
+.cake_info{
+    padding: 0 10em;
+}
+
+.title{
+    width: 100%;
+}
+
+.description{
+    width: 90%;
+    resize: none;
+}

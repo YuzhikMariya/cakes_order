@@ -59,7 +59,7 @@ function Order(props) {
         <div className={s.order} id={props.id}>
             <img className={s.photo} src={"https://localhost:44340/images/"+props.photo} alt="cake img"></img>
             <p className={s.title}>{props.title}</p>
-            <div className={s.price}>Price for one: <span className={s.order_data}>{props.price}</span> BYN</div>
+            <div className={s.price}>Price for one: <span className={s.order_data}>{(Math.round(props.price * 100) / 100).toFixed(2)}</span> BYN</div>
             <div className={s.count}>
                 Count: 
                  <div onClick={decrease} className={`${s.decrease} ${s.change_count__btn}`}>-</div>
@@ -70,7 +70,7 @@ function Order(props) {
             
             
 
-            <div className={s.result_sum}>Result sum: <br/> <span className={s.order_data}>{props.price * props.count}</span> BYN</div>
+            <div className={s.result_sum}>Result sum: <br/> <span className={s.order_data}>{(Math.round(props.price * props.count * 100) / 100).toFixed(2)}</span> BYN</div>
 
             <div onClick={deleteItem} className={s.cancel__btn} />
         </div>

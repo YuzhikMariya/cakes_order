@@ -7,27 +7,39 @@ using server.Data;
 using System.IO;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.EntityFrameworkCore;
+using System.Threading.Tasks;
+using Microsoft.AspNetCore.Authorization;
 
 namespace server.Controllers
 {
     [Route("api/[controller]")]
     public class CatalogController : Controller
     {
-
-        private readonly IWebHostEnvironment _hostingEnvironment;
-        public CatalogController(IWebHostEnvironment hostingEnvironment)
+        private ApplicationContext db;
+        public CatalogController(ApplicationContext context)
         {
-            _hostingEnvironment = hostingEnvironment;
+            db = context;
         }
 
         [HttpGet]
-        public CatalogWithTotalCount Get(int page, int pageSize)
+        public async Task<CatalogWithTotalCount> Get(int page, int pageSize)
         {
-            if(pageSize == 0)
+            List<User> users = await db.Users.ToListAsync();
+            foreach(var u in users)
             {
-                pageSize = Store.Catalog.Count;
+                System.Diagnostics.Debug.WriteLine(u.Name);
             }
-            var catalogArray = Store.Catalog.ToArray();
+
+            int catalogLength = db.Catalog.Count();
+            if (pageSize == 0)
+            {
+                pageSize = catalogLength;
+            }
+
+            List<Cake> catalog = db.Catalog.ToList();
+            var catalogArray = catalog.ToArray();
+
             int length = catalogArray.Length;
             int startIndex = (page - 1) * pageSize;
             if (startIndex >= length)
@@ -46,9 +58,10 @@ namespace server.Controllers
             for(int i = startIndex; i < startIndex+count; i++)
             {
                 TimeSpan newTime = catalogArray[i].Time;
-                foreach (var cookingId in Store.CookingList.ListOfId)
+                
+                foreach (var cookingId in db.CookingList)
                 {
-                    if (catalogArray[i].Id == cookingId)
+                    if (catalogArray[i].Id == cookingId.CakeId)
                     {
                         newTime = newTime.Add(catalogArray[i].Time);
                     }
@@ -69,42 +82,26 @@ namespace server.Controllers
             return resultCake;
         }
 
-        Cart getUserCart(string userEmail)
-        {
-            string cartId = "";
-            foreach (User u in Store.Users)
-            {
-                if (u.Email == userEmail)
-                {
-                    cartId = u.CartID;
-                    break;
-                }
-            }
-            foreach (Cart cart in Store.Carts)
-            {
-                if (cart.Id == cartId)
-                {
-                    return cart;
-                }
-            }
-            return null;
-        }
-
         [HttpPost]
+        [Authorize]
         public IActionResult Post(string id)
         {
             string userEmail = HttpContext.User.Identity.Name;
-            Cart cart = getUserCart(userEmail);
-            foreach (Cake cake in Store.Catalog)
+            Cake cake = db.Catalog.FirstOrDefault(c => c.Id == id);
+            Cart userCartWithCake = db.Carts.FirstOrDefault(c => c.CakeId == id && c.UserId == userEmail);
+            if(userCartWithCake != null)
             {
-                if (cake.Id == id)
-                {
-                    CartItem cartItem = new CartItem { CakeId = id, Count = 1 };
-                    cart.CartList.Add(cartItem);
-                    return Ok(cake);
-                }
+                userCartWithCake.Count += 1;
+                db.Carts.Update(userCartWithCake);
+                db.SaveChanges();
             }
-            return Ok();
+            else
+            {
+                db.Carts.Add(new Cart { CakeId = id, UserId = userEmail, Count = 1 });
+                db.SaveChanges();
+            }
+            
+            return Ok(cake);
         }
 
     }

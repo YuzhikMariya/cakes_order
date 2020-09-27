@@ -16,17 +16,29 @@ namespace server.Controllers
     [Authorize(Roles = "Admin")]
     public class AdminController: Controller
     {
+
+        private ApplicationContext db;
+        public AdminController(ApplicationContext context)
+        {
+            db = context;
+        }
+
         [HttpPost]
         [Authorize]
-        public IActionResult Post(AddedCake cake)
+        public async Task<IActionResult> Post(AddedCake cake)
         {
-            Cake newCake = new Cake();
-            newCake.Id = Guid.NewGuid().ToString();
-            newCake.Title = cake.Title;
-            newCake.Price = cake.Price;
-            newCake.Time = TimeSpan.Parse(cake.Time);
-            newCake.Description = cake.Description;
-            
+            char separator = System.Globalization.CultureInfo.CurrentCulture.NumberFormat.CurrencyDecimalSeparator[0];
+            string stringPrice = cake.Price.Replace('.', separator);
+            decimal price = Convert.ToDecimal(stringPrice);
+            Cake newCake = new Cake
+            {
+                Id = Guid.NewGuid().ToString(),
+                Title = cake.Title,
+                Price = price,
+                Time = TimeSpan.Parse(cake.Time),
+                Description = cake.Description
+            };
+
 
             try
             {
@@ -36,7 +48,8 @@ namespace server.Controllers
                     cake.Img.CopyTo(stream);
                 }
                 newCake.Photo = cake.Img.FileName;
-                Store.Catalog.Add(newCake);
+                db.Catalog.Add(newCake);
+                await db.SaveChangesAsync(); 
                 return Ok();
             }
             catch (Exception)

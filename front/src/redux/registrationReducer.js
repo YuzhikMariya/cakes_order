@@ -17,7 +17,7 @@ let initialState = {
         email: "",
         name: "",
         surname: "",
-        phone: ""
+        phone: "+375-"
     },
     popup: false
 }
@@ -50,9 +50,30 @@ export const registrationReducer = (state = initialState, action) => {
             return newState;
         }
         case SET_REG_PHONE:{
-            let newState = {...state};
-            newState.registration.phone = action.phone;
-            return newState;
+            let inputPhone = action.phone;
+            if(inputPhone.length > 4 && inputPhone.length < 18){
+                let newPhone = "+375-";
+                if(inputPhone.substring(0, 5) === "+375-"){
+                    let phone = inputPhone.replaceAll('-', '');
+                    if(phone.length > 11){
+                        newPhone += [phone.slice(4, 6), "-", phone.slice(6, 9), "-", phone.slice(9, 11), "-", phone.slice(11)].join('');
+                    }else{
+                        if(phone.length > 9){
+                            newPhone += [phone.slice(4, 6), "-", phone.slice(6, 9), "-", phone.slice(9)].join('');
+                        }else{
+                            if(phone.length > 6){
+                                newPhone += [phone.slice(4, 6), "-", phone.slice(6)].join('');
+                            }else{
+                                newPhone += [phone.slice(4)].join('');
+                            }
+                        }
+                    }
+                    let newState = {...state};
+                    newState.registration.phone = newPhone;
+                    return newState;
+                }
+            }
+            return state;
         }
         case SET_REG_NAME:{
             let newState = {...state};

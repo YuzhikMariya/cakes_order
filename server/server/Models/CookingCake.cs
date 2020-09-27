@@ -6,10 +6,10 @@ using System.Threading.Tasks;
 
 namespace server.Models
 {
-    public class Admin
+    public class CookingCake
     {
         [Key]
-        public string Email { get; set; }
-        public string Password { get; set; }
+        public long Id { get; set; }
+        public string CakeId { get; set; }
     }
 }

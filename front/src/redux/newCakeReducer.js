@@ -10,7 +10,7 @@ const POST = 'POST';
 const initialState = {
     title: "",
     time: "",
-    price: 0,
+    price: 0.00,
     photo: null,
     description: ""
 }
@@ -21,6 +21,7 @@ export const newCakeReducer = (state = initialState, action) => {
         case POST:{
             const postData = new FormData();
         
+            
             postData.append("title", state.title);
             postData.append("time", state.time);
             postData.append("price", state.price);

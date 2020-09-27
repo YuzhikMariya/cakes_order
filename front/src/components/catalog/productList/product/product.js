@@ -13,10 +13,14 @@ function Product(props) {
         Axios.post("https://localhost:44340/api/catalog", postData)
         .then(res => {
             props.onAddClick(res.data.id, res.data.photo, res.data.title, res.data.price);
+            props.setPopup();
+            setTimeout(() => props.setPopup(), 4000);
+        }).catch(() => {
+            const {history} = props;
+            history.push("/signin");
         });
 
-        props.setPopup();
-        setTimeout(() => props.setPopup(), 4000);
+
         e.preventDefault();
     }
 
@@ -25,7 +29,7 @@ function Product(props) {
             <NavLink to={"cake/"+props.id}>
                 <img className={s.photo} src={"https://localhost:44340/images/"+props.photo} alt="cake"></img>
                 <p className={s.title}>{props.title}</p>
-                <div className={s.price}>{props.price} BYN</div>
+                <div className={s.price}>{(Math.round(props.price * 100) / 100).toFixed(2)} BYN</div>
                 <div className={s.time}>{props.time} min</div>
                 <button onClick={onAddClick} className={s.btn}>Add</button>
             </NavLink>

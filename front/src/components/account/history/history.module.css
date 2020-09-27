@@ -17,3 +17,8 @@
 a{
     color: var(--main-text-color);
 }
+
+.empty{
+    display: block;
+    padding-top: 3em;
+}

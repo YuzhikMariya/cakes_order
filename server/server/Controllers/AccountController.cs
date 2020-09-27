@@ -8,38 +8,35 @@ using server.Data;
 using System.Security.Claims;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authentication.Cookies;
+using Microsoft.EntityFrameworkCore;
 
 namespace server.Controllers
 {
-   // [Route("api/[controller]")]
     public class AccountController : Controller
     {
-        //private UserContext db;
-        //public AccountController(UserContext context)
-        //{
-        //  //  db = context;
-        //}
+        private ApplicationContext db;
+        public AccountController(ApplicationContext context)
+        {
+              db = context;
+        }
 
         [Route("/role")]
         [HttpGet]
         public string GetRole()
         {
             string userEmail = HttpContext.User.Identity.Name;
-            foreach (User u in Store.Users)
+            User user = db.Users.FirstOrDefault(u => u.Email == userEmail);
+            if(user != null)
             {
-                if (u.Email == userEmail)
-                {
-                    return AuthResponse.User;
-                }
+                return AuthResponse.User;
             }
 
-            foreach (Admin a in Store.Admins)
+            Admin admin = db.Admins.FirstOrDefault(u => u.Email == userEmail);
+            if(admin != null)
             {
-                if (a.Email == userEmail)
-                {
-                    return AuthResponse.Admin;
-                }
+                return AuthResponse.Admin;
             }
+                
             return AuthResponse.Guest;
         }
 
@@ -47,40 +44,19 @@ namespace server.Controllers
         [HttpPost]
         public async Task<IActionResult> Login(Login model)
         {
-            User user = null;
-            foreach(User u in Store.Users)
-            {
-                if((u.Email == model.Email) && (u.Password == model.Password))
-                {
-                    user = u;
-                }
-            }
-
+            User user = await db.Users.FirstOrDefaultAsync(u => u.Email == model.Email && u.Password == model.Password);
             if (user != null)
             {
                 await Authenticate(model.Email, "User");
                 return Ok(new AuthResponse { Status = 200, Role = AuthResponse.User});
             }
-
-            Admin admin = null;
-            foreach (Admin a in Store.Admins)
-            {
-                if ((a.Email == model.Email) && (a.Password == model.Password))
-                {
-                    admin = a;
-                }
-            }
-
+            Admin admin = await db.Admins.FirstOrDefaultAsync(u => u.Email == model.Email && u.Password == model.Password);
             if (admin != null)
             {
                 await Authenticate(model.Email, "Admin");
-
                 return Ok(new AuthResponse { Status = 200, Role = AuthResponse.Admin });
 
             }
-
-
-
             return Ok(new AuthResponse { Status = 404, Role = AuthResponse.Guest });
         }
 
@@ -88,22 +64,16 @@ namespace server.Controllers
         [HttpPost]
         public async Task<IActionResult> Register(Registration model)
         {
-            User user = null;//await db.Users.FirstOrDefaultAsync(u => u.Email == model.Email);
-            foreach (User u in Store.Users)
-            {
-                if (u.Email == model.Email)
-                {
-                    user = u;
-                }
-            }
+            User user = await db.Users.FirstOrDefaultAsync(u => u.Email == model.Email);
 
             if (user == null)
             {
-                string cartId = Guid.NewGuid().ToString(), historyId = Guid.NewGuid().ToString();
-                Store.Carts.Add(new Cart { Id = cartId, CartList = new List<CartItem>() });
-                Store.Histories.Add(new History { Id = historyId, HistoryList = new List<CartItem>() });
-                Store.Users.Add(new User { Id = Guid.NewGuid().ToString(), Email = model.Email, Name = model.Name, Surname = model.Surname, Phone = model.Phone, HistoryID = historyId, CartID = cartId });
+                string userId = Guid.NewGuid().ToString();
+
+                db.Users.Add(new User { Email = model.Email, Password=model.Password, Name = model.Name, Surname = model.Surname, Phone = model.Phone });
+                await db.SaveChangesAsync();
                 await Authenticate(model.Email, "User");
+
                 return Ok(new AuthResponse { Status = 200, Role = AuthResponse.User });
 
             }

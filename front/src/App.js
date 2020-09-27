@@ -20,7 +20,7 @@ function App(props) {
         <Route path="/admin" render={() => <AdminContainer />}/>
 
         <Route path="/acc" render={() => <AccountContainer /> }/>
-        <Route exact path="/" render={() => <Catalog catalogLength={props.state.catalogPage.catalog.length}/>}/>
+        <Route exact path="/" render={() => <Catalog/>}/>
         <Route path="/cart" render={() => <CartContainer />}/>
         <Route path="/cake/:id" render={({match}) => <CakeContainer match={match}/>}/>
         <Footer />

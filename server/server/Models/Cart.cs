@@ -1,10 +1,14 @@
 ﻿using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 
 namespace server.Models
 {
     public class Cart
     {
-        public string Id { get; set; }
-        public List<CartItem> CartList { get; set; }
+        [Key]
+        public long Id { get; set; }
+        public string CakeId { get; set; }
+        public string UserId { get; set; }
+        public int Count { get; set; }
     }
 }

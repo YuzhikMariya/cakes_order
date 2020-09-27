@@ -5,6 +5,8 @@ using server.Models;
 using server.Data;
 using Microsoft.AspNetCore.Authorization;
 using server.Models.ResponseModels;
+using System.Linq;
+using Microsoft.EntityFrameworkCore;
 
 namespace server.Controllers
 {
@@ -12,65 +14,32 @@ namespace server.Controllers
     [Authorize(Roles = "User")]
     public class UserController : Controller
     {
-
-        Cake getCakeById(string cakeId)
+        private ApplicationContext db;
+        public UserController(ApplicationContext context)
         {
-            foreach(Cake cake in Store.Catalog)
-            {
-                if(cake.Id == cakeId)
-                {
-                    return cake;
-                }
-            }
-            return null;
-        }
-
-        Models.User getUserByEmail(string userEmail)
-        {
-            foreach (Models.User user in Store.Users)
-            {
-                if (user.Email == userEmail)
-                {
-                    return user;
-                }
-            }
-            return null;
-        }
-
-        History getHistoryById(string historyId)
-        {
-            foreach (History history in Store.Histories)
-            {
-                if (history.Id == historyId)
-                {
-                    return history;
-                }
-            }
-            return null;
+            db = context;
         }
 
         [Authorize]
         [HttpGet]
-        public Models.ResponseModels.Account Get()
+        public Account Get()
         {
             string email = HttpContext.User.Identity.Name;
-            User user = getUserByEmail(email);
-            if(user != null)
+            User user = db.Users.FirstOrDefault(u => u.Email == email);
+            List<History> userHistory = db.Histories.Where(h => h.UserId == email).ToList();
+            if(user != null && userHistory != null)
             {
-                History history = getHistoryById(user.HistoryID);
-                if(history != null)
+                List<ListItem> resultHistory = new List<ListItem>();
+                foreach (var h in userHistory)
                 {
-                    List<ListItem> resultHistory = new List<ListItem>();
-                    foreach(CartItem historyItem in history.HistoryList)
-                    {
-                        ListItem listItem = new ListItem { Cake = getCakeById(historyItem.CakeId), Count = historyItem.Count };
-                        resultHistory.Add(listItem);
-                    }
-                    return new Account { User = user, History = resultHistory };
+                    Cake cake = db.Catalog.FirstOrDefault(c => c.Id == h.CakeId);
+                    ListItem listItem = new ListItem { Cake = cake, Count = h.Count };
+                    resultHistory.Add(listItem);
                 }
-                return new Account { User = user, History = null};
+                return new Account { User = user, History = resultHistory };
             }
-            return new Account { User = null, History = null};
+            return new Account { User = null, History = null };
+            
 
         }
 

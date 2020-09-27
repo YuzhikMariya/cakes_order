@@ -4,7 +4,11 @@
     margin-bottom: 2em;
 }
 .personal_info{
-    width: 33%;
+    width: 50%;
+}
+
+.phone_info{
+    width: 100%;
 }
 
 .registration_form__btn{
