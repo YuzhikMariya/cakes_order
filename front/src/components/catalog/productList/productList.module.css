@@ -22,3 +22,36 @@
     display: block;
     padding: 7em;
 }
+
+@media (max-width: 1150px) {
+    .sortBy5,
+    .sortBy10,
+    .sortBy1{
+        grid-template-columns: repeat(4, 1fr);
+    }
+}
+
+@media (max-width: 810px) {
+    .sortBy5,
+    .sortBy10,
+    .sortBy1{
+        grid-template-columns: repeat(3, 1fr);
+    }
+}
+
+@media (max-width: 600px) {
+    .sortBy5,
+    .sortBy10,
+    .sortBy1{
+        grid-template-columns: repeat(2, 1fr);
+    }
+}
+
+@media (max-width: 415px) {
+    .sortBy2,
+    .sortBy5,
+    .sortBy10,
+    .sortBy1{
+        grid-template-columns: repeat(1, 1fr);
+    }
+}

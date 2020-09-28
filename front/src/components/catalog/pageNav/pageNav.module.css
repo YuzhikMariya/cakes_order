@@ -4,6 +4,7 @@
     padding: 1em;
     background-color: var(--light-background-color);
     border-radius: 5em;
+    flex-wrap: wrap;
 }
 
 .btn{
@@ -15,7 +16,6 @@
 .first, 
 .last{
     background-color: var(--light-background-color);
-    width: 10%;
     border-radius: 2em;
 }
 

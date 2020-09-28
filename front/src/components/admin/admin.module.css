@@ -9,3 +9,9 @@
 .description{
     padding-top: 2em;
 }
+
+@media (max-width: 550px) {
+    .cake_info{
+        padding: 0;
+    }
+}

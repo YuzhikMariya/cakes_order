@@ -47,6 +47,7 @@ body,
   display: block;
   padding: 0.5em 1em;
   margin: 0 auto 3em auto;
+  width: 100%;
 }
 
 .btn{
@@ -101,4 +102,13 @@ body,
 
 .popup.entering{
   animation: show-loader 3s forwards;
+}
+
+@media (max-width: 700px) {
+    .content{
+      padding: 0;
+      margin-top: 12em;
+    }
+
+
 }

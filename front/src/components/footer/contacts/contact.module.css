@@ -8,3 +8,9 @@
     font-size: 14px;
     color: var(--secondary-text-color);
 }
+
+@media (max-width: 600px) {
+    .contact{
+        text-align: center;
+    }
+}

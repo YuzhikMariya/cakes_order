@@ -16,3 +16,15 @@
     background-color: var(--ok-btn-color);
     color: var(--light-text-color);
 }
+
+@media (max-width: 470px) {
+    .pages{
+        width: 100%;
+    }
+}
+
+@media (max-width: 320px) {
+    .pages{
+        flex-direction: column;
+    }
+}

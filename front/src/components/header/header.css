@@ -7,3 +7,9 @@ header{
     position: fixed;
     z-index: 2;
 }
+
+@media (max-width: 700px) {
+    header{
+        flex-direction: column;
+    }
+}

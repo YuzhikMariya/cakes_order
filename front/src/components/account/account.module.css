@@ -1,8 +1,8 @@
 .info{
-    text-align: start;
-    width: 20%;
+    text-align: center;
+    width: 100%;
     margin: auto;
-    padding: 0.5em 3em;
+    padding: 0.5em 0;
 }
 
 .user_data{

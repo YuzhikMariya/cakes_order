@@ -18,3 +18,29 @@
     background-color: var(--ok-btn-color);
     color: var(--light-text-color);
 }
+
+@media (max-width: 900px) {
+    .btn{
+        width: 10%;
+        margin: 0;
+    }
+}
+
+
+@media (max-width: 570px) {
+    .btn{
+        width: 30%;
+        margin: 0;
+    }
+
+    .sort__panel{
+        flex-wrap: wrap;
+    }
+}
+
+@media (max-width: 420px) {
+    .btn{
+        width: 90%;
+        margin: auto;
+    }
+}

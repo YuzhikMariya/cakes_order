@@ -17,3 +17,16 @@ nav{
     background-color: var(--ok-btn-color);
     color: var(--light-text-color);
 }
+
+@media (max-width: 600px) {
+    nav{
+        flex-direction: column;
+    }
+    .item{
+        width: 100%;
+        text-align: center;
+        padding: 1em;
+        margin: 0;
+        border-radius: 0;
+    }
+}

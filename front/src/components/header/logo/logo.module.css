@@ -14,6 +14,12 @@
 
 .name{
     color: var(--main-text-color);
-    font-size: 18px;
+    font-size: 12px;
     margin: 0;
+}
+
+@media (max-width: 600px) {
+    .logo{
+        display: none;
+    }
 }
