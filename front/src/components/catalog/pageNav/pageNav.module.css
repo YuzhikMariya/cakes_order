@@ -1,0 +1,26 @@
+.pages{
+    display: flex;
+    justify-content: space-around;
+    padding: 1em;
+    background-color: var(--light-background-color);
+    border-radius: 5em;
+    flex-wrap: wrap;
+}
+
+.btn{
+    border: 1px solid var(--main-text-color);
+    padding: 1em;
+    background-color: var(--secondary-text-color);
+}
+
+.first, 
+.last{
+    background-color: var(--light-background-color);
+    border-radius: 2em;
+}
+
+.prev,
+.next{
+    border-radius: 100%;
+    font-weight: bold;
+}

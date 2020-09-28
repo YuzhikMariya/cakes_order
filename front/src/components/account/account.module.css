@@ -1,0 +1,11 @@
+.info{
+    text-align: center;
+    width: 100%;
+    margin: auto;
+    padding: 0.5em 0;
+}
+
+.user_data{
+    font-weight: bold;
+    font-style: italic;
+}
