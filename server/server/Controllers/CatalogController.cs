@@ -24,12 +24,6 @@ namespace server.Controllers
         [HttpGet]
         public async Task<CatalogWithTotalCount> Get(int page, int pageSize)
         {
-            List<User> users = await db.Users.ToListAsync();
-            foreach(var u in users)
-            {
-                System.Diagnostics.Debug.WriteLine(u.Name);
-            }
-
             int catalogLength = db.Catalog.Count();
             if (pageSize == 0)
             {
@@ -83,6 +77,7 @@ namespace server.Controllers
 
         [HttpPost]
         [Authorize]
+        [Authorize(Roles = "User")]
         public IActionResult Post(string id)
         {
             string userEmail = HttpContext.User.Identity.Name;

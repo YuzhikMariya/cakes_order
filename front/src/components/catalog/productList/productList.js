@@ -8,7 +8,11 @@ class  ProductList extends React.Component {
     
 
     componentDidMount(){
-        Axios.get(`https://localhost:44340/api/catalog?page=${this.props.currentPage}&pageSize=${this.props.sortCount}`).then(res => 
+        let pageSize = this.props.sortCount;
+        if(pageSize == 1){
+            pageSize = 0;
+        }
+        Axios.get(`https://localhost:44340/api/catalog?page=${this.props.currentPage}&pageSize=${pageSize}`).then(res => 
         {
             this.props.setCatalog(res.data);
         });

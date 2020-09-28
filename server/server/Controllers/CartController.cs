@@ -90,7 +90,6 @@ namespace server.Controllers
 
         [Route("changeCount")]
         [HttpPost]
-        [Authorize]
         public IActionResult Post(string id, int count)
         {
             string userEmail = HttpContext.User.Identity.Name;

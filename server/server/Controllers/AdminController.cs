@@ -76,7 +76,7 @@ namespace server.Controllers
                 ShopInfo shopInfo = db.ShopInfo.FirstOrDefault();
                 foreach(var u in users)
                 {
-                    SendEmail(shopInfo.Login, u.Email, u.Name, cake.Description, shopInfo.Login, shopInfo.Password);
+                    //SendEmail(shopInfo.Login, u.Email, u.Name, cake.Description, shopInfo.Login, shopInfo.Password);
                 }
                 
                 newCake.Photo = cake.Img.FileName;
