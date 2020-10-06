@@ -15,8 +15,9 @@ class PageNav extends React.Component {
 
     toStart(e){
         e.preventDefault();
-        this.setCatalog(1);
-        
+        if(this.props.pageCount != 1){
+            this.setCatalog(1);
+        }
     }
 
     toPrev(e){
@@ -38,7 +39,9 @@ class PageNav extends React.Component {
 
     toEnd(e){
         e.preventDefault();
-        this.setCatalog(this.props.pageCount);
+        if(this.props.pageCount != 1){
+            this.setCatalog(this.props.pageCount);
+        }
     }
    
     render(){

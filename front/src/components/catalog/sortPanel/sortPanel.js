@@ -22,17 +22,17 @@ function SortPanel(props) {
     return (
         <div className={s.sort__panel}>
             {props.checked == 2
-                ? <div id="2" onClick={onSortClick} className={`${s.btn} ${s.checked}`} > 20 cakes</div>
-                : <div id="2" onClick={onSortClick} className={s.btn} > 20 cakes</div>
+                ? <div id="2" onClick={onSortClick} className={`${s.btn} ${s.checked}`} > 2 cakes</div>
+                : <div id="2" onClick={onSortClick} className={s.btn} > 2 cakes</div>
             }
             
             {props.checked == 5
-                ? <div id="5" onClick={onSortClick} className={`${s.btn} ${s.checked}`} > 50 cakes</div>
-                : <div id="5" onClick={onSortClick} className={s.btn} > 50 cakes</div>
+                ? <div id="5" onClick={onSortClick} className={`${s.btn} ${s.checked}`} > 5 cakes</div>
+                : <div id="5" onClick={onSortClick} className={s.btn} > 5 cakes</div>
             }
             {props.checked == 10
-                ? <div id="10" onClick={onSortClick} className={`${s.btn} ${s.checked}`} > 100 cakes</div>
-                : <div id="10" onClick={onSortClick} className={s.btn} > 100 cakes</div>
+                ? <div id="10" onClick={onSortClick} className={`${s.btn} ${s.checked}`} > 10 cakes</div>
+                : <div id="10" onClick={onSortClick} className={s.btn} > 10 cakes</div>
             }
             {props.checked == 1
                 ? <div id="1" onClick={onSortClick} className={`${s.btn} ${s.checked}`} > All cakes</div>

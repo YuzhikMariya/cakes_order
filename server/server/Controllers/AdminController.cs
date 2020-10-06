@@ -67,7 +67,14 @@ namespace server.Controllers
 
             try
             {
-                string path = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot", "images", cake.Img.FileName);
+                string path, 
+                    cakePhotoName = cake.Img.FileName, 
+                    folderPath = Directory.GetCurrentDirectory() + "wwwroot" + "images";
+                if (System.IO.File.Exists(Path.Combine(Directory.GetCurrentDirectory(), "wwwroot", "images", cakePhotoName)))
+                {
+                    cakePhotoName = DateTime.Now.ToString("MMddHHmmss") + cake.Img.FileName;
+                }
+                path = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot", "images", cakePhotoName);
                 using (Stream stream = new FileStream(path, FileMode.Create))
                 {
                     cake.Img.CopyTo(stream);
@@ -76,10 +83,10 @@ namespace server.Controllers
                 ShopInfo shopInfo = db.ShopInfo.FirstOrDefault();
                 foreach(var u in users)
                 {
-                    SendEmail(shopInfo.Login, u.Email, u.Name, cake.Description, shopInfo.Login, shopInfo.Password);
+                    //SendEmail(shopInfo.Login, u.Email, u.Name, cake.Description, shopInfo.Login, shopInfo.Password);
                 }
                 
-                newCake.Photo = cake.Img.FileName;
+                newCake.Photo = cakePhotoName;
                 db.Catalog.Add(newCake);
                 await db.SaveChangesAsync(); 
                 return Ok();

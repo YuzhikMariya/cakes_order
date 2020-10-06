@@ -30,7 +30,7 @@ function Product(props) {
                 <img className={s.photo} src={"https://localhost:44340/images/"+props.photo} alt="cake"></img>
                 <p className={s.title}>{props.title}</p>
                 <div className={s.price}>{(Math.round(props.price * 100) / 100).toFixed(2)} BYN</div>
-                <div className={s.time}>{props.time} min</div>
+                <div className={s.time}>{props.time} hours</div>
                 <button onClick={onAddClick} className={s.btn}>Add</button>
             </NavLink>
         </div>

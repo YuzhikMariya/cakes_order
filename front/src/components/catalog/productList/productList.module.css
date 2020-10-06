@@ -9,11 +9,11 @@
     grid-template-columns: repeat(2, 1fr);
 }
 
-.sortBy5{
+.sortBy5,
+.sortBy10{
     grid-template-columns: repeat(5, 1fr);
 }
 
-.sortBy10,
 .sortBy1{
     grid-template-columns: repeat(6, 1fr);
 }
