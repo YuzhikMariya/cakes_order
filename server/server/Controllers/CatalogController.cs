@@ -22,7 +22,7 @@ namespace server.Controllers
         }
 
         [HttpGet]
-        public async Task<CatalogWithTotalCount> Get(int page, int pageSize)
+        public CatalogWithTotalCount Get(int page, int pageSize)
         {
             int catalogLength = db.Catalog.Count();
             if (pageSize == 0)
