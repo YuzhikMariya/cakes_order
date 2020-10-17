@@ -1,14 +1,15 @@
 import React from 'react';
 import s from './navbar.module.css';
 import { NavLink } from 'react-router-dom';
-import Axios from 'axios';
+import {GetRequestHandler} from './../../../helperFunctions/requestHandler';
 
 class Navbar extends React.Component {
 
     componentDidMount(){
-        Axios.get("https://localhost:44340/role").then(res => {
+        let resolveCallback = res => {
             this.props.setRole(res.data);
-        })
+        };
+        GetRequestHandler("https://localhost:44340/role", resolveCallback);
     }
 
     getNavItems(){
@@ -39,8 +40,9 @@ class Navbar extends React.Component {
     }
 
     onSigout(){
-        Axios.get("https://localhost:44340/logout");
-        this.props.setRole("");
+        let resolveCallback = () => this.props.setRole("");
+        let rejectCallback = () => alert("Sorry, we you can't signout");
+        GetRequestHandler("https://localhost:44340/logout", resolveCallback, rejectCallback);   
     }
 
     

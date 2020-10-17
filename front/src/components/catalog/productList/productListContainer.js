@@ -1,6 +1,6 @@
 import { connect } from "react-redux";
 import ProductList from "./productList";
-import {setCatalogActionCreator} from './../../../redux/catalogReducer';
+import {setCatalogActionCreator, decreaseTimeActionCreator} from './../../../redux/catalogReducer';
 
 let mapStateToProps = (state) => {
     
@@ -14,7 +14,8 @@ let mapStateToProps = (state) => {
 
 let mapDispatchToProps = (dispatch) => {
     return {
-        setCatalog: (arr) => dispatch(setCatalogActionCreator(arr))
+        setCatalog: (arr) => dispatch(setCatalogActionCreator(arr)),
+        decreaseTime: () => dispatch(decreaseTimeActionCreator())
     }
 }
 

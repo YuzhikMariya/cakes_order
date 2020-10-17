@@ -1,16 +1,18 @@
 import React from 'react';
 import s from './pageNav.module.css'
 import CurrentPage from './currentPage/currentPage';
-import Axios from 'axios';
+import {GetRequestHandler} from './../../../helperFunctions/requestHandler';
 
 class PageNav extends React.Component {
 
     setCatalog(currPage){
         this.props.setCurrentPage(currPage);
-        Axios.get(`https://localhost:44340/api/catalog?page=${currPage}&pageSize=${this.props.pageSize}`).then(res => 
+        let resolveCallback = res => 
         {
             this.props.setCatalog(res.data);
-        });
+        };
+        let rejectCallback = () => alert("Sorry, we can't load catalog(");
+        GetRequestHandler(`https://localhost:44340/api/catalog?page=${currPage}&pageSize=${this.props.pageSize}`, resolveCallback, rejectCallback);
     }
 
     toStart(e){

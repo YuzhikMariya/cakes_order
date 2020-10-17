@@ -1,28 +1,23 @@
-import Axios from 'axios';
+import {GetRequestHandler, PostRequestHandler} from './../../helperFunctions/requestHandler';
 import React from 'react';
 import { OrderContainer } from './order/orderContainer';
 
 class Cart extends React.Component {
 
+    rejectCallback(history){
+        history.push("/signin");
+    }
+
     componentDidMount(){
 
-        const http = Axios.create({
-            baseURL: '/',
-            headers: { 'Cache-Control': 'no-cache' }
-        });
-
-        http.get("https://localhost:44340/api/cart", { cache: false }).then(res => 
+        let resolveCallback = res => 
         {
             this.props.setCart(res.data);
-        })
-        .catch(() => {
-            const {history} = this.props;
-            history.push("/signin");
-        });
+        };
+        GetRequestHandler("https://localhost:44340/api/cart", resolveCallback, this.rejectCallback.bind(this, this.props.history));
     }
 
     buy(e){
-
         const postData = new FormData();
         let cartItemArray = [];
         this.props.cart.forEach(element => {
@@ -32,20 +27,12 @@ class Cart extends React.Component {
             };
             cartItemArray.push(tempObj);
         });
-
-       
-        
         postData.append("list", JSON.stringify(cartItemArray));
-
-        Axios.post("https://localhost:44340/api/cart", postData)
-        .then(res => {
+        let resolveCallback = res => {
             this.props.onBuyClick(res.data);
-        }).catch(() => {
-            const {history} = this.props;
-            history.push("/signin");
-        });
-        e.preventDefault();
-        
+        };
+        PostRequestHandler("https://localhost:44340/api/cart", postData, resolveCallback, this.rejectCallback.bind(this, this.props.history));
+        e.preventDefault(); 
     }
 
     render(){
@@ -75,7 +62,6 @@ class Cart extends React.Component {
             </div>
         );
     }
-    
 }
 
 export default Cart;

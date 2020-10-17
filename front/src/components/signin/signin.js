@@ -2,7 +2,7 @@ import React from 'react';
 import PersonalInfo from '../personalInfo/personalInfo';
 import './signin.css';
 import { NavLink } from 'react-router-dom';
-import Axios from 'axios';
+import {PostRequestHandler} from './../../helperFunctions/requestHandler';
 import sha1 from 'js-sha1';
 import {Transition} from 'react-transition-group';
 
@@ -10,14 +10,14 @@ class SignIn extends React.Component {
 
 
     onClick(e){
-        const {history} = this.props;
         e.preventDefault();
         let SHA1Password = sha1(this.props.password);
         const postData = new FormData();
         postData.append("email", this.props.email);
         postData.append("password", SHA1Password);
-        Axios.post("https://localhost:44340/login", postData).then(res => {
+        let resolveCallback = res => {
             if(res.data.status == 200){
+                const {history} = this.props;
                 history.push("/");
             }else{
                 this.props.setPopup();
@@ -27,8 +27,9 @@ class SignIn extends React.Component {
             this.props.setPassword("");
             this.props.setRole(res.data.role);
             this.props.setStartPage();
-        }
-        );
+        };
+        let rejectCallback = () => alert("Sorry, you can't sign in");
+        PostRequestHandler("https://localhost:44340/login", postData, resolveCallback.bind(this), rejectCallback);
     }
 
     render(){

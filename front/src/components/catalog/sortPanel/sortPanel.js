@@ -1,4 +1,4 @@
-import Axios from 'axios';
+import {GetRequestHandler} from './../../../helperFunctions/requestHandler';
 import React from 'react';
 import s from './sortPanel.module.css'
 
@@ -11,12 +11,14 @@ function SortPanel(props) {
         if(pageSize == 1){
             pageSize = 0;
         }
-        Axios.get(`https://localhost:44340/api/catalog?page=1&pageSize=${pageSize}`).then(res => 
+        let resolveCallback = res => 
         {
             props.setCurrentPage(1);
             props.setCatalog(res.data);
 
-        });
+        };
+        let rejectCallback = () => alert("Sorry, we can't change sort type(");
+        GetRequestHandler(`https://localhost:44340/api/catalog?page=1&pageSize=${pageSize}`, resolveCallback, rejectCallback);
     }
 
     return (

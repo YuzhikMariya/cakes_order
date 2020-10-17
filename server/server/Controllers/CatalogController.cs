@@ -9,6 +9,7 @@ using Microsoft.AspNetCore.Hosting;
 using Microsoft.EntityFrameworkCore;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authorization;
+using server.Models.HelpModels;
 
 namespace server.Controllers
 {
@@ -45,29 +46,41 @@ namespace server.Controllers
             {
                 count = length-startIndex;
             }
-            Cake[] resultArray = new Cake[count];
-            
+            CakeWithCookingTimeInfo[] resultArray = new CakeWithCookingTimeInfo[count];
 
+            DateTime nowTime = DateTime.Now;
             for(int i = startIndex; i < startIndex+count; i++)
             {
                 TimeSpan newTime = catalogArray[i].Time;
-                
+                DateTime lastOrderTime = nowTime;
+                bool isCooking = false;
                 foreach (var cookingId in db.CookingList)
                 {
                     if (catalogArray[i].Id == cookingId.CakeId)
                     {
                         newTime = newTime.Add(catalogArray[i].Time);
+                        System.Diagnostics.Debug.WriteLine(newTime.Hours + " " + newTime.Minutes + "     " + nowTime + "   " + cookingId.OrderTime);
+                        isCooking = true;
+                        lastOrderTime = cookingId.OrderTime;
                     }
                 }
-                resultArray[i - startIndex] = new Cake
+                TimeSpan timeWithCookingAll = newTime - nowTime.Subtract(lastOrderTime);
+                if(timeWithCookingAll < catalogArray[i].Time)
                 {
-                    Id = catalogArray[i].Id,
-                    Photo = catalogArray[i].Photo,
-                    Price = catalogArray[i].Price,
-                    Description = catalogArray[i].Description,
-                    Title = catalogArray[i].Title,
-                    Time = newTime
-
+                    timeWithCookingAll = catalogArray[i].Time;
+                }
+                resultArray[i - startIndex] = new CakeWithCookingTimeInfo
+                {
+                    CakeInfo = new Cake {
+                        Id = catalogArray[i].Id,
+                        Photo = catalogArray[i].Photo,
+                        Price = catalogArray[i].Price,
+                        Description = catalogArray[i].Description,
+                        Title = catalogArray[i].Title,
+                        Time = catalogArray[i].Time,
+                    },
+                    IsCooking = isCooking,
+                    TimeWithCookingAll = timeWithCookingAll
                 };
             }
             

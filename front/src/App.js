@@ -11,7 +11,7 @@ import { AccountContainer } from './components/account/accountContainer';
 import { AdminContainer } from './components/admin/adminContainer';
 import { SigninContainer } from './components/signin/signinContainer';
 
-function App(props) {
+function App() {
   return (
     <div className="wrapper">
         <Header />

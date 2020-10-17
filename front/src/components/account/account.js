@@ -1,23 +1,24 @@
 import React from 'react';
 import s from './account.module.css'
 import History from './history/history';
-import Axios from 'axios';
+import {GetRequestHandler} from './../../helperFunctions/requestHandler';
 
 class Account extends React.Component{
 
     componentDidMount(){
-        Axios.get("https://localhost:44340/api/user").then(res => 
+        let resolve = res => 
         {
             if(res.data.user != null){
                 this.props.setAccount(res.data);
             }else{
-                throw "";
-            }
-            
-        }).catch(() => {
+                throw "Invalid user";
+            }  
+        };
+        let rejectecallback = () => {
             const {history} = this.props;
             history.push("/signin");
-        });
+        }
+        GetRequestHandler("https://localhost:44340/api/user", resolve, rejectecallback);
     }
 
     render() {

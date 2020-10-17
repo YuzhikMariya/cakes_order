@@ -1,21 +1,34 @@
 import React from 'react';
 import s from './productList.module.css'
 import { ProductContainer } from './product/productContainer';
-import Axios from "axios";
+import './../../../helperFunctions/requestHandler';
 import {Transition} from 'react-transition-group';
+import { GetRequestHandler } from './../../../helperFunctions/requestHandler';
 
 class  ProductList extends React.Component {
     
+    componentWillUnmount(){
+        clearInterval(this.state.interval);
+    }
 
     componentDidMount(){
+        const MS_PER_MIN = 60*1000;
         let pageSize = this.props.sortCount;
         if(pageSize == 1){
             pageSize = 0;
         }
-        Axios.get(`https://localhost:44340/api/catalog?page=${this.props.currentPage}&pageSize=${pageSize}`).then(res => 
+        let resolveCallback = (res) => 
         {
             this.props.setCatalog(res.data);
-        });
+            const interval = setInterval(() => {
+                this.props.decreaseTime();
+                console.log('This will run every second!');
+            }, MS_PER_MIN);
+            this.setState({ interval: interval })
+            
+        };
+        let rejectCallback = () => alert("Sorry, we can't load catalog");
+        GetRequestHandler(`https://localhost:44340/api/catalog?page=${this.props.currentPage}&pageSize=${pageSize}`, resolveCallback, rejectCallback);
     }
 
     render(){
@@ -35,7 +48,7 @@ class  ProductList extends React.Component {
                         {state => <div className={`popup ${state}`}> Product added to cart</div>}
                     </Transition>
                     {this.props.products.map(el => {
-                        return <ProductContainer id={el.id} photo={el.photo} title={el.title} time={el.time} price={el.price}/>
+                        return <ProductContainer id={el.id} photo={el.photo} title={el.title} time={el.timeWithCookingAll} price={el.price}/>
                     })}
 
                 

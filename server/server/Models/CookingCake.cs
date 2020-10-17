@@ -11,5 +11,6 @@ namespace server.Models
         [Key]
         public long Id { get; set; }
         public string CakeId { get; set; }
+        public DateTime OrderTime { get; set; }
     }
 }

@@ -1,26 +1,22 @@
 import React from 'react';
 import s from './product.module.css'
 import { NavLink } from 'react-router-dom';
-import Axios from 'axios';
+import {PostRequestHandler} from './../../../../helperFunctions/requestHandler';
 
 function Product(props) {
 
     let onAddClick = (e) => {
-
         const postData = new FormData();
         postData.append("id", props.id);
-
-        Axios.post("https://localhost:44340/api/catalog", postData)
-        .then(res => {
+        let resolveCallback = res => {
             props.onAddClick(res.data.id, res.data.photo, res.data.title, res.data.price);
             props.setPopup();
             setTimeout(() => props.setPopup(), 4000);
-        }).catch(() => {
-            const {history} = props;
+        };
+        let rejectCallback = history => {
             history.push("/signin");
-        });
-
-
+        }
+        PostRequestHandler("https://localhost:44340/api/catalog", postData, resolveCallback, rejectCallback.bind(this, props.history));
         e.preventDefault();
     }
 

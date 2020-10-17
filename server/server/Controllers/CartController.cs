@@ -63,12 +63,12 @@ namespace server.Controllers
                     db.SaveChanges();
                     response.Add(tempCake);
                 }
-
+                DateTime orderTime = DateTime.Now;
                 foreach (var c in userCart)
                 {
                     for (int i = 0; i < c.Count; i++)
                     {
-                        CookingCake cookingCake = new CookingCake { CakeId = c.CakeId };
+                        CookingCake cookingCake = new CookingCake { CakeId = c.CakeId, OrderTime = orderTime };
                         db.CookingList.Add(cookingCake);
 
                     }

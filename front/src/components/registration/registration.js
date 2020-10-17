@@ -2,7 +2,7 @@ import React from 'react';
 import './registration.css';
 import PersonalInfo from '../personalInfo/personalInfo';
 import { NavLink } from 'react-router-dom';
-import Axios from 'axios';
+import {PostRequestHandler} from './../../helperFunctions/requestHandler';
 import sha1 from 'js-sha1';
 import {Transition} from 'react-transition-group';
 
@@ -14,7 +14,7 @@ function Registration(props) {
 
     let onFormSubmit = (e) => {
         e.preventDefault();
-        const {history} = props;
+        
         let SHA1Password = sha1(props.password);
         const postData = new FormData();
         postData.append("email", props.email);
@@ -22,9 +22,9 @@ function Registration(props) {
         postData.append("name", props.name);
         postData.append("surname", props.surname);
         postData.append("phone", props.phone);
-
-        Axios.post("https://localhost:44340/register", postData).then(res => {
+        let resolveCallback = res => {
             if(res.data.status == 200){
+                const {history} = props;
                 history.push("/");
             }else{
                 props.setPopup();
@@ -36,8 +36,9 @@ function Registration(props) {
             props.setSurname("");
             props.setPhone("+375-");
             props.setRole(res.data.role);
-        }
-        );
+        };
+        let rejectCallback = () => alert("Sorry, you can't register"); 
+        PostRequestHandler("https://localhost:44340/register", postData, resolveCallback.bind(this), rejectCallback);
     }
 
     return (

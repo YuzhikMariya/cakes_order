@@ -15,7 +15,7 @@ let mapDispatchToProps = (dispatch) => {
         onAddClick: (id, photo, title, price) => {
             dispatch(addToCartActionCreator(id, photo, title, price));
         },
-        setPopup: () => {dispatch(setPopupActionCreator())}
+        setPopup: () => dispatch(setPopupActionCreator())
     }
 }
 

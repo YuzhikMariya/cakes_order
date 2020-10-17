@@ -32,7 +32,7 @@ export const newCakeReducer = (state = initialState, action) => {
                 headers: {
                 'Content-Type': 'multipart/form-data'
                 }
-            })
+            }).catch(() => alert("Sorry, the cake isn't been added"));
             return state;
 
         }

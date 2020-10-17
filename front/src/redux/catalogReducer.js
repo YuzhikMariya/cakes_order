@@ -1,5 +1,5 @@
 const CHANGE_SORT_TYPE  = 'CHANGE-SORT-TYPE';
-const ADD_TO_CATALOG = 'ADD-TO-CATALOG';
+const DECREASE_TIME = 'SET-TIME';
 const SET_CATALOG = 'SET-CATALOG';
 const SET_CURRENT_PAGE = 'SET-CURRENT-PAGE';
 const SET_PAGE_COUNT = 'SET-PAGE-COUNT';
@@ -16,22 +16,18 @@ let initialState = {
       popup: false
 }
 
+function getTime(time){
+    if(parseInt(time) > 9){
+        return time;
+    }else{
+        return `0${time}`;
+    }
+}
+
 export const catalogReducer = (state = initialState, action) => {
 
 
     switch (action.type){
-        case ADD_TO_CATALOG:{
-            let cake = {
-                photo: action.photo,
-                title: action.title,
-                price: action.price,
-                time: action.time,
-                description: action.description
-            }
-            let newState = {...state};
-            newState.catalog.push(cake);
-            return newState;
-        }
         case CHANGE_SORT_TYPE:{
             let newState = {...state};
             newState.sortType = action.newType;
@@ -42,13 +38,17 @@ export const catalogReducer = (state = initialState, action) => {
             newState.catalog = [];
             if(action.catalogArr != null){
                 action.catalogArr.forEach(element => {
+                    let hours = getTime(element.timeWithCookingAll.hours), 
+                        minutes = getTime(element.timeWithCookingAll.minutes);
                     let tempObj = {
-                        title: element.title,
-                        id: element.id,
-                        price: element.price,
-                        time: element.time.hours + ":" + element.time.minutes,
-                        description: element.description,
-                        photo: element.photo
+                        title: element.cakeInfo.title,
+                        id: element.cakeInfo.id,
+                        price: element.cakeInfo.price,
+                        time: element.cakeInfo.time.hours + ":" + element.cakeInfo.time.minutes,
+                        description: element.cakeInfo.description,
+                        photo: element.cakeInfo.photo,
+                        isCooking: element.isCooking,
+                        timeWithCookingAll: hours + ":" + minutes
                     }
                     newState.catalog.push(tempObj);
                 });
@@ -60,6 +60,28 @@ export const catalogReducer = (state = initialState, action) => {
                 newState.pageCount = Math.ceil(action.totalCount / state.sortType);
             }
           
+            return newState;
+        }
+        case DECREASE_TIME:{
+            const MS_PER_MINUTE = 60000;
+            let newState = {...state};
+            newState.catalog = [];
+            state.catalog.forEach(element => {
+                let tempTimeForOne = new Date(),  tempTimeForAll = new Date();
+                let timeHours = element.time.substring(0, element.time.indexOf(":")),
+                    timeMinutes = element.time.substring(element.time.indexOf(":")+1);
+                tempTimeForOne.setHours(parseInt(timeHours));
+                tempTimeForOne.setMinutes(parseInt(timeMinutes));
+                timeHours = element.timeWithCookingAll.substring(0, element.timeWithCookingAll.indexOf(":")),
+                timeMinutes = element.timeWithCookingAll.substring(element.timeWithCookingAll.indexOf(":")+1);
+                tempTimeForAll.setHours(parseInt(timeHours));
+                tempTimeForAll.setMinutes(parseInt(timeMinutes));
+                if(element.isCooking && (tempTimeForAll - tempTimeForOne >= MS_PER_MINUTE)){
+                    let newTime = new Date(tempTimeForAll - MS_PER_MINUTE);
+                    element.timeWithCookingAll = getTime(newTime.getHours()) + ":" + getTime(newTime.getMinutes());
+                }
+                newState.catalog.push(element);
+            });
             return newState;
         }
         case SET_CURRENT_PAGE:{
@@ -114,5 +136,11 @@ export const setPageCountActionCreator = (count) => {
 export const setPopupActionCreator = () => {
     return{
         type: SET_POPUP
+    }
+}
+
+export const decreaseTimeActionCreator = () => {
+    return{
+        type: DECREASE_TIME
     }
 }
