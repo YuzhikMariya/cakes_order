@@ -1,6 +1,7 @@
 import {GetRequestHandler, PostRequestHandler} from './../../helperFunctions/requestHandler';
 import React from 'react';
 import { OrderContainer } from './order/orderContainer';
+import s from './cart.module.css';
 
 class Cart extends React.Component {
 
@@ -36,6 +37,7 @@ class Cart extends React.Component {
     }
 
     render(){
+        let resultSum = 0;
         return (
             <div className="content">
                 <h1>Shopping cart</h1>
@@ -43,9 +45,12 @@ class Cart extends React.Component {
                     ? (
                         <div className="order_list">
                             {this.props.cart.map((value) => {
+                                {resultSum += value.count*value.price}
                                 return <OrderContainer photo={value.photo} title={value.title} price={value.price} count={value.count} id={value.id} dispatch={this.props.dispatch}/>
                             })}
-    
+                            <div className={s.result_sum}>
+                                Result sum : {resultSum}
+                            </div>
                             <div>
                                 <button onClick={this.buy.bind(this)} class="btn">Buy</button>
                             </div>
