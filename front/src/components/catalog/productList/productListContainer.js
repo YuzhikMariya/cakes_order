@@ -7,8 +7,7 @@ let mapStateToProps = (state) => {
     return{
         products: state.catalogPage.catalog,
         sortCount: state.catalogPage.sortType,
-        currentPage: state.catalogPage.currentPage,
-        popup:state.catalogPage.popup
+        currentPage: state.catalogPage.currentPage
     }   
 }
 

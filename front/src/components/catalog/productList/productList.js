@@ -2,7 +2,6 @@ import React from 'react';
 import s from './productList.module.css'
 import { ProductContainer } from './product/productContainer';
 import './../../../helperFunctions/requestHandler';
-import {Transition} from 'react-transition-group';
 import { GetRequestHandler } from './../../../helperFunctions/requestHandler';
 
 class  ProductList extends React.Component {
@@ -39,20 +38,9 @@ class  ProductList extends React.Component {
             && Object.keys(this.props.products[0]).length !== 0)
                 ? (
                     <div className={`${s.product_list} ${s[sortClass]}`}>
-                    <Transition
-                        in={this.props.popup}
-                        timeout={500}
-                        mountOnEnter
-                        unmountOnExit
-                        >
-                        {state => <div className={`popup ${state}`}> Product added to cart</div>}
-                    </Transition>
                     {this.props.products.map(el => {
                         return <ProductContainer id={el.id} photo={el.photo} title={el.title} time={el.timeWithCookingAll} price={el.price}/>
                     })}
-
-                
-    
                     </div>
                 )
                 : (

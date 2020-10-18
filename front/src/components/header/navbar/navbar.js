@@ -6,10 +6,14 @@ import {GetRequestHandler} from './../../../helperFunctions/requestHandler';
 class Navbar extends React.Component {
 
     componentDidMount(){
-        let resolveCallback = res => {
+        let roleResolveCallback = res => {
             this.props.setRole(res.data);
         };
-        GetRequestHandler("https://localhost:44340/role", resolveCallback);
+        GetRequestHandler("https://localhost:44340/role", roleResolveCallback);
+        let cartResolveCallback = res => {
+            this.props.setCart(res.data);
+        }
+        GetRequestHandler("https://localhost:44340/api/cart", cartResolveCallback);
     }
 
     getNavItems(){
@@ -18,7 +22,11 @@ class Navbar extends React.Component {
         navItems.push(tempItem);
         switch(this.props.role){   
             case "user":
-                tempItem = <NavLink className={s.item} activeClassName={s.active} to="/cart">Cart</NavLink>
+                let cartText = "Cart";
+                if(this.props.cartCount > 0){
+                    cartText += ` (${this.props.cartCount})`;
+                }
+                tempItem = <NavLink className={s.item} activeClassName={s.active} to="/cart">{cartText} </NavLink>
                 navItems.push(tempItem);
                 tempItem = <NavLink className={s.item} activeClassName={s.active} to="/acc">My account</NavLink>
                 navItems.push(tempItem);

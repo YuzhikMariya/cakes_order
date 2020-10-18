@@ -3,7 +3,6 @@ const DECREASE_TIME = 'SET-TIME';
 const SET_CATALOG = 'SET-CATALOG';
 const SET_CURRENT_PAGE = 'SET-CURRENT-PAGE';
 const SET_PAGE_COUNT = 'SET-PAGE-COUNT';
-const SET_POPUP = 'SET-POPUP';
 
 let initialState = {
     catalog: [
@@ -12,8 +11,7 @@ let initialState = {
       ],
       sortType: 5,
       currentPage: 1,
-      pageCount: 1,
-      popup: false
+      pageCount: 1
 }
 
 function getTime(time){
@@ -94,11 +92,6 @@ export const catalogReducer = (state = initialState, action) => {
             newState.pageCount = action.count;
             return newState;
         }
-        case SET_POPUP:{
-            let newState = {...state};
-            newState.popup = !state.popup;
-            return newState;
-        }
         default: 
             return state;
     }
@@ -130,12 +123,6 @@ export const setPageCountActionCreator = (count) => {
     return {
         type: SET_PAGE_COUNT, 
         count: count
-    }
-}
-
-export const setPopupActionCreator = () => {
-    return{
-        type: SET_POPUP
     }
 }
 

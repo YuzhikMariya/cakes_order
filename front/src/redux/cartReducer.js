@@ -7,20 +7,6 @@ const SET_CART = 'SET-CART';
 
 let initialState = {
     cart: [
-        // {
-        //   id: "1", 
-        //   photo: "cake1.png",
-        //   title: "Kkjsdfh  ksf kjdsfk h",
-        //   price: 13,
-        //   count: 4
-        // },
-        // {
-        //   id: "2", 
-        //   photo: "cake2.png",
-        //   title: "Kkjsdfh  ksf  h",
-        //   price: 13,
-        //   count: 54
-        // }
       ]
 }
 

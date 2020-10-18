@@ -1,5 +1,7 @@
 .result_sum{
     text-align: end;
-    padding: 1em;
     font-weight: bold;
+    padding: 0 3em;
+    margin: auto;
+    width: 70%;
 }

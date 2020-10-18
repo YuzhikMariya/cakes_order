@@ -10,7 +10,6 @@ function Product(props) {
         postData.append("id", props.id);
         let resolveCallback = res => {
             props.onAddClick(res.data.id, res.data.photo, res.data.title, res.data.price);
-            props.setPopup();
             setTimeout(() => props.setPopup(), 4000);
         };
         let rejectCallback = history => {
