@@ -1,0 +1,18 @@
+
+.invalid_input_info{
+    color: red;
+    font-style: italic;
+    display: inline-block;
+    margin-bottom: 3em;
+}
+
+.personal_info{
+    width: 50%;
+    margin-bottom: 1.5em;
+}
+
+@media (max-width: 900px) {
+    .personal_info{
+        width: 100%;
+    }
+}

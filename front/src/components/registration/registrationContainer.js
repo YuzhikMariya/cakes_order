@@ -1,11 +1,11 @@
 import { connect } from "react-redux";
 import {setRegEmailActionCreator,
         setRegPasswordActionCreator,
+        setRegRepeatedPasswordActionCreator,
         setRegPhoneActionCreator,
         setRegNameActionCreator,
         setRegSurnameActionCreator,
-        setRoleActionCreator,
-        setPopupActionCreator} from './../../redux/registrationReducer';
+        setRoleActionCreator} from './../../redux/registrationReducer';
 import {withRouter} from 'react-router-dom';
 import Registration from "./registration";
 
@@ -13,10 +13,10 @@ let mapStateToProps = (state) => {
     return{
         email: state.registrationPage.registration.email,
         password: state.registrationPage.registration.password,
+        repeatedPassword: state.registrationPage.registration.repeatedPassword,
         phone: state.registrationPage.registration.phone,
         name: state.registrationPage.registration.name,
-        surname: state.registrationPage.registration.surname,
-        popup: state.registrationPage.popup
+        surname: state.registrationPage.registration.surname
     }
 }
 
@@ -24,11 +24,11 @@ let mapDispatchToProps = (dispatch) => {
     return{
         setEmail: (email) => dispatch(setRegEmailActionCreator(email)),
         setPassword: (password) => dispatch(setRegPasswordActionCreator(password)),
+        setRepeatedPassword: (password) => dispatch(setRegRepeatedPasswordActionCreator(password)),
         setName: (name) => dispatch(setRegNameActionCreator(name)),
         setSurname: (surname) => dispatch(setRegSurnameActionCreator(surname)),
         setPhone: (phone) => dispatch(setRegPhoneActionCreator(phone)),
-        setRole: (role) => dispatch(setRoleActionCreator(role)),
-        setPopup: () => dispatch(setPopupActionCreator())
+        setRole: (role) => dispatch(setRoleActionCreator(role))
     }
 }
 

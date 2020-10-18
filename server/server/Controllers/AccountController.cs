@@ -64,7 +64,6 @@ namespace server.Controllers
         public async Task<IActionResult> Register(Registration model)
         {
             User user = await db.Users.FirstOrDefaultAsync(u => u.Email == model.Email);
-
             if (user == null)
             {
                 string userId = Guid.NewGuid().ToString();

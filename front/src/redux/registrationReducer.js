@@ -3,10 +3,10 @@ const SET_PASSWORD = 'SET-PASSWORD';
 const SET_ROLE = 'SET-ROLE';
 const SET_REG_EMAIL = 'SET-REG-EMAIL';
 const SET_REG_PASSWORD = 'SET-REG-PASSWORD';
+const SET_REG_REPEATED_PASSWORD = 'SET-REG-REPEATED-PASSWORD';
 const SET_REG_NAME = 'SET-REG-NAME';
 const SET_REG_SURNAME = 'SET-REG-SURNAME';
 const SET_REG_PHONE = 'SET-REG-PHONE';
-const SET_POPUP = 'SET-POPUP';
 
 let initialState = {
     currentPassword: "",
@@ -14,12 +14,12 @@ let initialState = {
     role: "",
     registration: {
         password: "", 
+        repeatedPassword: "",
         email: "",
         name: "",
         surname: "",
         phone: "+375-"
-    },
-    popup: false
+    }
 }
 
 export const registrationReducer = (state = initialState, action) => {
@@ -47,6 +47,11 @@ export const registrationReducer = (state = initialState, action) => {
         case SET_REG_PASSWORD:{
             let newState = {...state};
             newState.registration.password = action.password;
+            return newState;
+        }
+        case SET_REG_REPEATED_PASSWORD:{
+            let newState = {...state};
+            newState.registration.repeatedPassword = action.repeatedPassword;
             return newState;
         }
         case SET_REG_PHONE:{
@@ -83,11 +88,6 @@ export const registrationReducer = (state = initialState, action) => {
         case SET_REG_SURNAME:{
             let newState = {...state};
             newState.registration.surname = action.surname;
-            return newState;
-        }
-        case SET_POPUP:{
-            let newState = {...state};
-            newState.popup = !state.popup;
             return newState;
         }
         default: 
@@ -151,9 +151,9 @@ export const setRegPasswordActionCreator = (password) => {
     }
 }
 
-export const setPopupActionCreator = () => {
+export const setRegRepeatedPasswordActionCreator = (password) => {
     return{
-        type: SET_POPUP
+        type: SET_REG_REPEATED_PASSWORD,
+        repeatedPassword: password
     }
 }
-

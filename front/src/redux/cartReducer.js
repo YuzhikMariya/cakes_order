@@ -64,9 +64,11 @@ export const cartReducer = (state = initialState, action) => {
       case SET_CART:{
         let newState = {...state};
         newState.cart = [];
-        action.cart.forEach(el => {
-          newState.cart.push(el);
-        });
+        if(action.cart.length > 0){
+          action.cart.forEach(el => {
+            newState.cart.push(el);
+          });
+        }
         return newState;
       }
       default:
@@ -116,16 +118,18 @@ export const addToCartActionCreator = (id, photo, title, price) => {
 
 export const setCartActionCreator = (obj) => {
   let cart = [];
-  obj.forEach(element => {
-    let tempCartItem = {
-      id: element.cake.id,
-      photo: element.cake.photo,
-      title: element.cake.title,
-      price: element.cake.price,
-      count: element.count
-    };
-    cart.push(tempCartItem);
-  });
+  if(obj.length > 0){
+    obj.forEach(element => {
+      let tempCartItem = {
+        id: element.cake.id,
+        photo: element.cake.photo,
+        title: element.cake.title,
+        price: element.cake.price,
+        count: element.count
+      };
+      cart.push(tempCartItem);
+    });
+  }
   return {
     type: SET_CART,
     cart: cart

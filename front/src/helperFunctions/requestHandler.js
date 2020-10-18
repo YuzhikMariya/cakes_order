@@ -18,7 +18,7 @@ export function PostRequestHandler(queryStr, postData, resolve, reject){
 
 export function DeleteRequestHandler(queryStr, configObj, resolve, reject){
     Axios.delete(queryStr, configObj).then(res =>
-        resolve()
+        resolve(res)
     ).catch(() =>
         reject()
     );
