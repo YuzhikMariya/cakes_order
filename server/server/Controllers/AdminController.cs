@@ -4,6 +4,7 @@ using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using MimeKit;
+using server.DBRepositories;
 using server.Models;
 using System;
 using System.Collections.Generic;
@@ -18,10 +19,10 @@ namespace server.Controllers
     public class AdminController: Controller
     {
 
-        private ApplicationContext db;
+        private UnitOfWork db;
         public AdminController(ApplicationContext context)
         {
-            db = context;
+            db = new UnitOfWork(context);
         }
 
         static void SendEmail(string from, string to, string name, string cakeDescription, string login, string password)
@@ -51,7 +52,7 @@ namespace server.Controllers
 
         [HttpPost]
         [Authorize]
-        public async Task<IActionResult> Post(AddedCake cake)
+        public IActionResult Post(AddedCake cake)
         {
             char separator = System.Globalization.CultureInfo.CurrentCulture.NumberFormat.CurrencyDecimalSeparator[0];
             string stringPrice = cake.Price.Replace('.', separator);
@@ -79,16 +80,16 @@ namespace server.Controllers
                 {
                     cake.Img.CopyTo(stream);
                 }
-                List<User> users = db.Users.ToList();
-                ShopInfo shopInfo = db.ShopInfo.FirstOrDefault();
+                List<User> users = db.Users.GetAll().ToList();
+                ShopInfo shopInfo = db.ShopInfo.GetAll().FirstOrDefault();
                 foreach(var u in users)
                 {
-                    //SendEmail(shopInfo.Login, u.Email, u.Name, cake.Description, shopInfo.Login, shopInfo.Password);
+                    SendEmail(shopInfo.Login, u.Email, u.Name, cake.Description, shopInfo.Login, shopInfo.Password);
                 }
                 
                 newCake.Photo = cakePhotoName;
-                db.Catalog.Add(newCake);
-                await db.SaveChangesAsync(); 
+                db.Catalog.Create(newCake);
+                db.Catalog.Save(); 
                 return Ok();
             }
             catch (Exception)

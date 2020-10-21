@@ -8,6 +8,7 @@ using server.Models;
 using Microsoft.AspNetCore.Authorization;
 using server.Models.ResponseModels;
 using Microsoft.EntityFrameworkCore;
+using server.DBRepositories;
 
 namespace server.Controllers
 {
@@ -15,10 +16,10 @@ namespace server.Controllers
     [Authorize(Roles = "User")]
     public class CartController : Controller
     {
-        private ApplicationContext db;
+        private UnitOfWork db;
         public CartController(ApplicationContext context)
         {
-            db = context;
+            db = new UnitOfWork(context);
         }
 
         [HttpGet]
@@ -27,12 +28,12 @@ namespace server.Controllers
         {
             string userEmail = HttpContext.User.Identity.Name;
             List<Cart> userCart = new List<Cart>();
-            userCart = db.Carts.Where(c => c.UserId == userEmail).ToList();
+            userCart = db.Carts.GetAll().Where(c => c.UserId == userEmail).ToList();
 
             List<ListItem> resultCart = new List<ListItem>();
             foreach(Cart cartItem in userCart)
             {
-                Cake cake = db.Catalog.FirstOrDefault(c => c.Id == cartItem.CakeId);
+                Cake cake = db.Catalog.GetById(cartItem.CakeId);//.FirstOrDefault(c => c.Id == cartItem.CakeId);
                 resultCart.Add(new ListItem { Cake = cake, Count = cartItem.Count });
             }
             return resultCart;
@@ -45,22 +46,22 @@ namespace server.Controllers
             string userEmail = HttpContext.User.Identity.Name;
 
             List<Cart> userCart = new List<Cart>();
-            userCart = db.Carts.Where(c => c.UserId == userEmail).ToList();
+            userCart = db.Carts.GetAll().Where(c => c.UserId == userEmail).ToList();
 
             List<History> userHistory = new List<History>();
-            userHistory = db.Histories.Where(h => h.UserId == userEmail).ToList();
+            userHistory = db.Histories.GetAll().Where(h => h.UserId == userEmail).ToList();
 
-            db.ChangeTracker.QueryTrackingBehavior = QueryTrackingBehavior.NoTracking;
+            //db.ChangeTracker.QueryTrackingBehavior = QueryTrackingBehavior.NoTracking;
             if ((userCart != null) && (userHistory != null))
             {
                 var req = JsonConvert.DeserializeObject<List<AddedHistoryItem>>(addedHistory.List);
                 List<ListItem> response = new List<ListItem>();
                 foreach (var item in req)
                 {
-                    Cake cake = db.Catalog.FirstOrDefault(c => c.Id == item.Id);
+                    Cake cake = db.Catalog.GetById(item.Id);//.FirstOrDefault(c => c.Id == item.Id);
                     ListItem tempCake = new ListItem { Cake = cake, Count = item.Count };
-                    db.Histories.Add(new History { UserId = userEmail, CakeId = item.Id, Count = item.Count});
-                    db.SaveChanges();
+                    db.Histories.Create(new History { UserId = userEmail, CakeId = item.Id, Count = item.Count});
+                    db.Histories.Save();
                     response.Add(tempCake);
                 }
                 DateTime orderTime = DateTime.Now;
@@ -69,17 +70,17 @@ namespace server.Controllers
                     for (int i = 0; i < c.Count; i++)
                     {
                         CookingCake cookingCake = new CookingCake { CakeId = c.CakeId, OrderTime = orderTime };
-                        db.CookingList.Add(cookingCake);
+                        db.CookingList.Create(cookingCake);
 
                     }
 
                 }
-                db.SaveChanges();
+                db.CookingList.Save();
                 foreach (var c in userCart)
                 {
-                    db.Carts.Remove(c);
+                    db.Carts.Delete(c);
                 }
-                db.SaveChanges();
+                db.Carts.Save();
 
                 return Ok(response);
             }
@@ -93,12 +94,12 @@ namespace server.Controllers
         public IActionResult Post(string id, int count)
         {
             string userEmail = HttpContext.User.Identity.Name;
-            Cart cart = db.Carts.FirstOrDefault(c => c.UserId == userEmail && c.CakeId == id);
+            Cart cart = db.Carts.GetAll().FirstOrDefault(c => c.UserId == userEmail && c.CakeId == id);
             if(cart != null)
             {
                 cart.Count = count;
                 db.Carts.Update(cart);
-                db.SaveChanges();
+                db.Carts.Save();
                 return Ok();
             } 
             return NotFound();
@@ -110,11 +111,11 @@ namespace server.Controllers
         public IActionResult Delete(string id)
         {
             string userEmail = HttpContext.User.Identity.Name;
-            Cart cart = db.Carts.FirstOrDefault(cart => cart.UserId == userEmail);
+            Cart cart = db.Carts.GetByUserId(userEmail);// FirstOrDefault(cart => cart.UserId == userEmail);
             if(cart != null)
             {
-                db.Carts.Remove(cart);
-                db.SaveChanges();
+                db.Carts.Delete(cart);
+                db.Carts.Save();
                 return Ok();
             }
             return NotFound();

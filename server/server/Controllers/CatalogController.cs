@@ -10,28 +10,31 @@ using Microsoft.EntityFrameworkCore;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authorization;
 using server.Models.HelpModels;
+using server.Interfaces;
+using server.DBRepositories;
 
 namespace server.Controllers
 {
     [Route("api/[controller]")]
     public class CatalogController : Controller
     {
-        private ApplicationContext db;
+        private UnitOfWork db;
         public CatalogController(ApplicationContext context)
         {
-            db = context;
+            db = new UnitOfWork(context);
         }
 
         [HttpGet]
         public CatalogWithTotalCount Get(int page, int pageSize)
         {
-            int catalogLength = db.Catalog.Count();
+            int catalogLength = db.Catalog.GetAll().Count();
+
             if (pageSize == 0)
             {
                 pageSize = catalogLength;
             }
 
-            List<Cake> catalog = db.Catalog.ToList();
+            List<Cake> catalog = db.Catalog.GetAll().ToList();
             var catalogArray = catalog.ToArray();
 
             int length = catalogArray.Length;
@@ -54,12 +57,11 @@ namespace server.Controllers
                 TimeSpan newTime = catalogArray[i].Time;
                 DateTime lastOrderTime = nowTime;
                 bool isCooking = false;
-                foreach (var cookingId in db.CookingList)
+                foreach (var cookingId in db.CookingList.GetAll())
                 {
                     if (catalogArray[i].Id == cookingId.CakeId)
                     {
                         newTime = newTime.Add(catalogArray[i].Time);
-                        System.Diagnostics.Debug.WriteLine(newTime.Hours + " " + newTime.Minutes + "     " + nowTime + "   " + cookingId.OrderTime);
                         isCooking = true;
                         lastOrderTime = cookingId.OrderTime;
                     }
@@ -94,18 +96,18 @@ namespace server.Controllers
         public IActionResult Post(string id)
         {
             string userEmail = HttpContext.User.Identity.Name;
-            Cake cake = db.Catalog.FirstOrDefault(c => c.Id == id);
-            Cart userCartWithCake = db.Carts.FirstOrDefault(c => c.CakeId == id && c.UserId == userEmail);
+            Cake cake = db.Catalog.GetById(id);
+            Cart userCartWithCake = db.Carts.GetByUserId(userEmail);
             if(userCartWithCake != null)
             {
                 userCartWithCake.Count += 1;
                 db.Carts.Update(userCartWithCake);
-                db.SaveChanges();
+                db.Carts.Save();
             }
             else
             {
-                db.Carts.Add(new Cart { CakeId = id, UserId = userEmail, Count = 1 });
-                db.SaveChanges();
+                db.Carts.Create(new Cart { CakeId = id, UserId = userEmail, Count = 1 });
+                db.Carts.Save();
             }
             
             return Ok(cake);
