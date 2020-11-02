@@ -33,7 +33,8 @@ namespace server.Controllers
         {
             char separator = System.Globalization.CultureInfo.CurrentCulture.NumberFormat.CurrencyDecimalSeparator[0];
             string stringPrice = cake.Price.Replace('.', separator);
-            decimal price = Convert.ToDecimal(stringPrice);
+            decimal price = 0.0M;
+            decimal.TryParse(stringPrice, out price);
             Cake newCake = new Cake
             {
                 Id = Guid.NewGuid().ToString(),
