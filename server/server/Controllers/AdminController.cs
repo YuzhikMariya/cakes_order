@@ -80,11 +80,12 @@ namespace server.Controllers
                 {
                     cake.Img.CopyTo(stream);
                 }
-                List<User> users = db.Users.GetAll().ToList();
+                List<User> users = db.Users.GetAll().Where(u => u.IsAdmin).ToList();
                 ShopInfo shopInfo = db.ShopInfo.GetAll().FirstOrDefault();
                 foreach(var u in users)
                 {
-                    SendEmail(shopInfo.Login, u.Email, u.Name, cake.Description, shopInfo.Login, shopInfo.Password);
+                    System.Diagnostics.Debug.WriteLine(u.Name);
+                    //SendEmail(shopInfo.Login, u.Email, u.Name, cake.Description, shopInfo.Login, shopInfo.Password);
                 }
                 
                 newCake.Photo = cakePhotoName;

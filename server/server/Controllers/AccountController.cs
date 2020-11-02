@@ -28,15 +28,12 @@ namespace server.Controllers
             User user = db.Users.GetByEmail(userEmail);//.FirstOrDefault(u => u.Email == userEmail);
             if(user != null)
             {
+                if (user.IsAdmin)
+                {
+                    return AuthResponse.Admin;
+                }
                 return AuthResponse.User;
-            }
-
-            Admin admin = db.Admins.GetByEmail(userEmail);//.FirstOrDefault(u => u.Email == userEmail);
-            if(admin != null)
-            {
-                return AuthResponse.Admin;
-            }
-                
+            }   
             return AuthResponse.Guest;
         }
 
@@ -47,15 +44,16 @@ namespace server.Controllers
             User user = db.Users.GetAll().FirstOrDefault(u => u.Email == model.Email && u.Password == model.Password);
             if (user != null)
             {
-                await Authenticate(model.Email, "User");
-                return Ok(new AuthResponse { Status = 200, Role = AuthResponse.User});
-            }
-            Admin admin = db.Admins.GetAll().FirstOrDefault(u => u.Email == model.Email && u.Password == model.Password);
-            if (admin != null)
-            {
-                await Authenticate(model.Email, "Admin");
-                return Ok(new AuthResponse { Status = 200, Role = AuthResponse.Admin });
-
+                if (user.IsAdmin)
+                {
+                    await Authenticate(model.Email, "Admin");
+                    return Ok(new AuthResponse { Status = 200, Role = AuthResponse.Admin });
+                }
+                else
+                {
+                    await Authenticate(model.Email, "User");
+                    return Ok(new AuthResponse { Status = 200, Role = AuthResponse.User });
+                }
             }
             return Ok(new AuthResponse { Status = 404, Role = AuthResponse.Guest });
         }
@@ -67,9 +65,9 @@ namespace server.Controllers
             User user = db.Users.GetByEmail(model.Email);//.FirstOrDefaultAsync(u => u.Email == model.Email);
             if (user == null)
             {
-                string userId = Guid.NewGuid().ToString();
+                
 
-                db.Users.Create(new User { Email = model.Email, Password=model.Password, Name = model.Name, Surname = model.Surname, Phone = model.Phone });
+                db.Users.Create(new User { Email = model.Email, Password=model.Password, Name = model.Name, Surname = model.Surname, Phone = model.Phone, IsAdmin = false });
                 db.Users.Save();
                 await Authenticate(model.Email, "User");
 
