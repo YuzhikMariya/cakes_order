@@ -46,13 +46,9 @@ namespace server.Controllers
 
             try
             {
-                string path, 
-                    cakePhotoName = cake.Img.FileName, 
+                string path,
+                    cakePhotoName = Guid.NewGuid().ToString() + cake.Img.FileName,
                     folderPath = Directory.GetCurrentDirectory() + "wwwroot" + "images";
-                if (System.IO.File.Exists(Path.Combine(Directory.GetCurrentDirectory(), "wwwroot", "images", cakePhotoName)))
-                {
-                    cakePhotoName = DateTime.Now.ToString("MMddHHmmss") + cake.Img.FileName;
-                }
                 path = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot", "images", cakePhotoName);
                 using (Stream stream = new FileStream(path, FileMode.Create))
                 {
