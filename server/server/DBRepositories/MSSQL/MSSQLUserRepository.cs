@@ -27,6 +27,10 @@ namespace server.DBRepositories
         {
             return db.Users.FirstOrDefault(c => c.Email == id);
         }
+        public User GetByEmailPassword(string email, string password)
+        {
+            return db.Users.FirstOrDefault(u => u.Email == email & u.Password == password);
+        }
         public void Create(User user)
         {
             db.Users.Add(user);

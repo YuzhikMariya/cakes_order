@@ -25,7 +25,7 @@ namespace server.Controllers
         public string GetRole()
         {
             string userEmail = HttpContext.User.Identity.Name;
-            User user = db.Users.GetByEmail(userEmail);//.FirstOrDefault(u => u.Email == userEmail);
+            User user = db.Users.GetByEmail(userEmail);
             if(user != null)
             {
                 if (user.IsAdmin)
@@ -41,7 +41,7 @@ namespace server.Controllers
         [HttpPost]
         public async Task<IActionResult> Login(Login model)
         {
-            User user = db.Users.GetAll().FirstOrDefault(u => u.Email == model.Email && u.Password == model.Password);
+            User user = db.Users.GetByEmailPassword(model.Email, model.Password);// db.Users.GetAll().FirstOrDefault(u => u.Email == model.Email && u.Password == model.Password);
             if (user != null)
             {
                 if (user.IsAdmin)
