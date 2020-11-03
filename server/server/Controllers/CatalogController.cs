@@ -33,60 +33,50 @@ namespace server.Controllers
             {
                 pageSize = catalogLength;
             }
-
-            List<Cake> catalog = db.Catalog.GetAll().ToList();
-            var catalogArray = catalog.ToArray();
-
-            int length = catalogArray.Length;
-            int startIndex = (page - 1) * pageSize;
-            if (startIndex >= length)
+            var catalog = db.Catalog.GetPage(page, pageSize);
+            if(catalog == null)
             {
-
                 return new CatalogWithTotalCount();
             }
-            int count = pageSize;
-            if (startIndex + count >= length)
-            {
-                count = length-startIndex;
-            }
-            CakeWithCookingTimeInfo[] resultArray = new CakeWithCookingTimeInfo[count];
+            List<CakeWithCookingTimeInfo> resultArray = new List<CakeWithCookingTimeInfo>();//[catalog.Count];
 
             DateTime nowTime = DateTime.Now;
-            for(int i = startIndex; i < startIndex+count; i++)
+            foreach(Cake cake in catalog)
             {
-                TimeSpan newTime = catalogArray[i].Time;
+                TimeSpan newTime = cake.Time;
                 DateTime lastOrderTime = nowTime;
                 bool isCooking = false;
                 foreach (var cookingId in db.CookingList.GetAll())
                 {
-                    if (catalogArray[i].Id == cookingId.CakeId)
+                    if (cake.Id == cookingId.CakeId)
                     {
-                        newTime = newTime.Add(catalogArray[i].Time);
+                        newTime = newTime.Add(cake.Time);
                         isCooking = true;
                         lastOrderTime = cookingId.OrderTime;
                     }
                 }
                 TimeSpan timeWithCookingAll = newTime - nowTime.Subtract(lastOrderTime);
-                if(timeWithCookingAll < catalogArray[i].Time)
+                if (timeWithCookingAll < cake.Time)
                 {
-                    timeWithCookingAll = catalogArray[i].Time;
+                    timeWithCookingAll = cake.Time;
                 }
-                resultArray[i - startIndex] = new CakeWithCookingTimeInfo
+                resultArray.Add(new CakeWithCookingTimeInfo
                 {
-                    CakeInfo = new Cake {
-                        Id = catalogArray[i].Id,
-                        Photo = catalogArray[i].Photo,
-                        Price = catalogArray[i].Price,
-                        Description = catalogArray[i].Description,
-                        Title = catalogArray[i].Title,
-                        Time = catalogArray[i].Time,
+                    CakeInfo = new Cake
+                    {
+                        Id = cake.Id,
+                        Photo = cake.Photo,
+                        Price = cake.Price,
+                        Description = cake.Description,
+                        Title = cake.Title,
+                        Time = cake.Time,
                     },
                     IsCooking = isCooking,
                     TimeWithCookingAll = timeWithCookingAll
-                };
+                });
             }
             
-            CatalogWithTotalCount resultCake = new CatalogWithTotalCount { Catalog = resultArray, TotalCount = length };
+            CatalogWithTotalCount resultCake = new CatalogWithTotalCount { Catalog = resultArray, TotalCount = db.Catalog.GetCount() };
             return resultCake;
         }
 

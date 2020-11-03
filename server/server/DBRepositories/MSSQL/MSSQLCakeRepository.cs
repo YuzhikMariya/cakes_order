@@ -44,7 +44,13 @@ namespace server.DBRepositories
         {
             db.SaveChanges();
         }
-
+        public List<Cake> GetPage(int pageNumber, int pageSize){
+            return db.Catalog.Skip((pageNumber-1) * pageSize).Take(pageSize).ToList();
+        }
+        public int GetCount()
+        {
+            return db.Catalog.Count();
+        }
         private bool disposed = false;
 
         public virtual void Dispose(bool disposing)
