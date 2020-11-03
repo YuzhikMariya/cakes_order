@@ -23,6 +23,11 @@ namespace server.DBRepositories
         {
             return db.Catalog.FirstOrDefault(c => c.Id == id);
         }
+        public List<Cake> GetByIdArr(List<string> ids)
+        {
+            List<Cake> result = db.Catalog.Where(c => ids.Contains(c.Id)).ToList();
+            return result;
+        }
         public void Create(Cake cake)
         {
             db.Catalog.Add(cake);

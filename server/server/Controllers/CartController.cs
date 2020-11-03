@@ -30,12 +30,29 @@ namespace server.Controllers
             List<Cart> userCart = new List<Cart>();
             userCart = db.Carts.GetAll().Where(c => c.UserId == userEmail).ToList();
 
-            List<ListItem> resultCart = new List<ListItem>();
+            List<string> cakeIdList = new List<string>();
             foreach(Cart cartItem in userCart)
             {
-                Cake cake = db.Catalog.GetById(cartItem.CakeId);//.FirstOrDefault(c => c.Id == cartItem.CakeId);
-                resultCart.Add(new ListItem { Cake = cake, Count = cartItem.Count });
+                cakeIdList.Add(cartItem.CakeId);
             }
+            List<ListItem> resultCart = new List<ListItem>();
+            if (cakeIdList.Count > 0)
+            {
+                List<Cake>  cakesInCart = db.Catalog.GetByIdArr(cakeIdList);
+                foreach (Cart cartItem in userCart)
+                {
+                    foreach (Cake cake in cakesInCart)
+                    {
+                        if (cake.Id == cartItem.CakeId)
+                        {
+                            resultCart.Add(new ListItem { Cake = cake, Count = cartItem.Count });
+                        }
+                    }
+                }
+            }
+           
+
+            
             return resultCart;
         }
 
@@ -51,7 +68,6 @@ namespace server.Controllers
             List<History> userHistory = new List<History>();
             userHistory = db.Histories.GetAll().Where(h => h.UserId == userEmail).ToList();
 
-            //db.ChangeTracker.QueryTrackingBehavior = QueryTrackingBehavior.NoTracking;
             if ((userCart != null) && (userHistory != null))
             {
                 var req = JsonConvert.DeserializeObject<List<AddedHistoryItem>>(addedHistory.List);
@@ -60,10 +76,10 @@ namespace server.Controllers
                 {
                     Cake cake = db.Catalog.GetById(item.Id);//.FirstOrDefault(c => c.Id == item.Id);
                     ListItem tempCake = new ListItem { Cake = cake, Count = item.Count };
-                    db.Histories.Create(new History { UserId = userEmail, CakeId = item.Id, Count = item.Count});
-                    db.Histories.Save();
+                    db.Histories.Create(new History { UserId = userEmail, CakeId = item.Id, Count = item.Count });
                     response.Add(tempCake);
                 }
+                db.Histories.Save();
                 DateTime orderTime = DateTime.Now;
                 foreach (var c in userCart)
                 {
@@ -111,7 +127,7 @@ namespace server.Controllers
         public IActionResult Delete(string id)
         {
             string userEmail = HttpContext.User.Identity.Name;
-            Cart cart = db.Carts.GetByUserId(userEmail);// FirstOrDefault(cart => cart.UserId == userEmail);
+            Cart cart = db.Carts.GetCartByUserEmail(userEmail, id);
             if(cart != null)
             {
                 db.Carts.Delete(cart);

@@ -97,8 +97,9 @@ namespace server.Controllers
         {
             string userEmail = HttpContext.User.Identity.Name;
             Cake cake = db.Catalog.GetById(id);
-            Cart userCartWithCake = db.Carts.GetByUserId(userEmail);
-            if(userCartWithCake != null)
+            Cart userCartWithCake = db.Carts.GetCartByUserEmail(userEmail, id);
+            
+            if(userCartWithCake != null && userCartWithCake.CakeId == id)
             {
                 userCartWithCake.Count += 1;
                 db.Carts.Update(userCartWithCake);

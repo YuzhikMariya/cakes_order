@@ -23,9 +23,9 @@ namespace server.DBRepositories
         {
             return db.Carts.FirstOrDefault(c => c.Id == id);
         }
-        public Cart GetByUserId(string id)
+        public Cart GetCartByUserEmail(string email, string id)
         {
-            return db.Carts.FirstOrDefault(c => c.UserId == id);
+            return db.Carts.FirstOrDefault(c => c.UserId == email && c.CakeId == id);
         }
         public void Create(Cart cart)
         {

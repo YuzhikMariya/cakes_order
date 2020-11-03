@@ -30,11 +30,22 @@ namespace server.Controllers
             if(user != null && userHistory != null)
             {
                 List<ListItem> resultHistory = new List<ListItem>();
+                List<string> cakeIdArr = new List<string>();
                 foreach (var h in userHistory)
                 {
-                    Cake cake = db.Catalog.GetById(h.CakeId);
-                    ListItem listItem = new ListItem { Cake = cake, Count = h.Count };
-                    resultHistory.Add(listItem);
+                    cakeIdArr.Add(h.CakeId);
+                }
+                List<Cake> cakes = db.Catalog.GetByIdArr(cakeIdArr);
+                foreach(var h in userHistory)
+                {
+                    foreach(var c in cakes)
+                    {
+                        if(c.Id == h.CakeId)
+                        {
+                            ListItem listItem = new ListItem { Cake = c, Count = h.Count };
+                            resultHistory.Add(listItem);
+                        }
+                    }
                 }
                 return new Account { User = user, History = resultHistory };
             }
