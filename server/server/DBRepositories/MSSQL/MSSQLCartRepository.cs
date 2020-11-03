@@ -27,6 +27,11 @@ namespace server.DBRepositories
         {
             return db.Carts.FirstOrDefault(c => c.UserId == email && c.CakeId == id);
         }
+        public List<Cart> GetByUserEmail(string email)
+        {
+            List<Cart> result = db.Carts.Where(c => email == c.UserId).ToList();
+            return result;
+        }
         public void Create(Cart cart)
         {
             db.Carts.Add(cart);

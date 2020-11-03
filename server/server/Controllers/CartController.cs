@@ -28,7 +28,7 @@ namespace server.Controllers
         {
             string userEmail = HttpContext.User.Identity.Name;
             List<Cart> userCart = new List<Cart>();
-            userCart = db.Carts.GetAll().Where(c => c.UserId == userEmail).ToList();
+            userCart = db.Carts.GetByUserEmail(userEmail);
 
             List<string> cakeIdList = new List<string>();
             foreach(Cart cartItem in userCart)
