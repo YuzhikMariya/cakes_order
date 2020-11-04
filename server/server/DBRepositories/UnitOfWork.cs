@@ -9,7 +9,6 @@ namespace server.DBRepositories
     public class UnitOfWork
     {
         private ApplicationContext db;
-        private MSSQLAdminRepository adminRepository;
         private MSSQLCakeRepository cakeRepository;
         private MSSQLCartRepository cartRepository;
         private MSSQLCookingListRepository cookingListRepository;
@@ -20,18 +19,6 @@ namespace server.DBRepositories
         public UnitOfWork(ApplicationContext context)
         {
             db = context;
-        }
-
-        public MSSQLAdminRepository Admins
-        {
-            get
-            {
-                if(adminRepository == null)
-                {
-                    adminRepository = new MSSQLAdminRepository(db);
-                }
-                return adminRepository;
-            }
         }
 
         public MSSQLUserRepository Users

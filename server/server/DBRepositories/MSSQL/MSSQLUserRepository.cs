@@ -19,6 +19,10 @@ namespace server.DBRepositories
         {
             return db.Users;
         }
+        public List<User> GetUsers()
+        {
+            return db.Users.Where(u => !u.IsAdmin).ToList();
+        }
         public User GetById(string id)
         {
             return null;

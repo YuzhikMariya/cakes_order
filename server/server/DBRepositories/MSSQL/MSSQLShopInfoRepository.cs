@@ -19,6 +19,10 @@ namespace server.DBRepositories
         {
             return db.ShopInfo;
         }
+        public ShopInfo GetShopInfo()
+        {
+            return db.ShopInfo.FirstOrDefault();
+        }
         public ShopInfo GetById(string id)
         {
             return null;

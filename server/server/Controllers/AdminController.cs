@@ -56,8 +56,8 @@ namespace server.Controllers
                 {
                     cake.Img.CopyTo(stream);
                 }
-                List<User> users = db.Users.GetAll().Where(u => !u.IsAdmin).ToList();
-                ShopInfo shopInfo = db.ShopInfo.GetAll().FirstOrDefault();
+                List<User> users = db.Users.GetUsers();
+                ShopInfo shopInfo = db.ShopInfo.GetShopInfo();
                 foreach(var u in users)
                 {
                     EmailSender.SendEmail(shopInfo.Login, u.Email, u.Name, cake.Description, shopInfo.Login, shopInfo.Password);
